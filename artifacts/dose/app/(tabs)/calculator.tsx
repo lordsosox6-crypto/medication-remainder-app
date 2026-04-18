@@ -1,13 +1,14 @@
 import React, { useMemo, useState } from "react";
 import {
   Pressable,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from "react-native";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import Colors from "@/constants/colors";
@@ -132,6 +133,7 @@ export default function CalculatorScreen() {
   const fontBold = isRTL ? "Tajawal_700Bold" : "Inter_700Bold";
   const fontMed = isRTL ? "Tajawal_500Medium" : "Inter_500Medium";
   const fontReg = isRTL ? "Tajawal_400Regular" : "Inter_400Regular";
+  const webTopPadding = Platform.OS === "web" ? 67 : 0;
   const [weightText, setWeightText] = useState("");
   const [searchText, setSearchText] = useState("");
   const [category, setCategory] = useState<(typeof categories)[number]>("All");
@@ -151,7 +153,21 @@ export default function CalculatorScreen() {
   const result = calculateDose(selected, weight);
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: C.background }]} edges={["top"]}>
+    <View style={[styles.container, { backgroundColor: C.background }]}>
+      <View
+        style={[
+          styles.pageHeader,
+          {
+            backgroundColor: C.surface,
+            paddingTop: insets.top + 16 + webTopPadding,
+            borderBottomColor: C.border,
+          },
+        ]}
+      >
+        <Text style={[styles.pageTitle, { color: C.text, fontFamily: fontBold }]}>
+          {t("doseCalculatorTitle", lang)}
+        </Text>
+      </View>
       <ScrollView
         contentContainerStyle={[
           styles.content,
@@ -160,12 +176,6 @@ export default function CalculatorScreen() {
         ]}
         keyboardShouldPersistTaps="handled"
       >
-        <View style={styles.pageHeader}>
-          <Text style={[styles.pageTitle, { color: C.text, fontFamily: fontBold, textAlign: "center" }]}>
-            {t("doseCalculatorTitle", lang)}
-          </Text>
-        </View>
-
         <View style={[styles.header, { backgroundColor: C.surface, borderColor: C.border }, isRTL && styles.rowReverse]}>
           <View style={[styles.headerIcon, { backgroundColor: C.primaryLight }]}>
             <MaterialCommunityIcons name="calculator-variant-outline" size={28} color={C.primary} />
@@ -283,7 +293,7 @@ export default function CalculatorScreen() {
           })}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -318,11 +328,13 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   content: { padding: 16, gap: 16 },
   pageHeader: {
-    alignItems: "center",
-    paddingTop: 4,
-    paddingBottom: 2,
+    paddingHorizontal: 16,
+    paddingBottom: 16,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
   },
-  pageTitle: { fontSize: 30, letterSpacing: -0.7 },
+  pageTitle: { fontSize: 28, letterSpacing: -0.5, textAlign: "center" },
   header: {
     flexDirection: "row",
     alignItems: "center",
