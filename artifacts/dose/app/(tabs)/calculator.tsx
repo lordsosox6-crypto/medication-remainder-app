@@ -160,14 +160,17 @@ export default function CalculatorScreen() {
         ]}
         keyboardShouldPersistTaps="handled"
       >
+        <View style={styles.pageHeader}>
+          <Text style={[styles.pageTitle, { color: C.text, fontFamily: fontBold, textAlign: "center" }]}>
+            {t("doseCalculatorTitle", lang)}
+          </Text>
+        </View>
+
         <View style={[styles.header, { backgroundColor: C.surface, borderColor: C.border }, isRTL && styles.rowReverse]}>
           <View style={[styles.headerIcon, { backgroundColor: C.primaryLight }]}>
             <MaterialCommunityIcons name="calculator-variant-outline" size={28} color={C.primary} />
           </View>
           <View style={styles.headerText}>
-            <Text style={[styles.title, { color: C.text, fontFamily: fontBold, textAlign: isRTL ? "right" : "left" }]}>
-              {t("doseCalculatorTitle", lang)}
-            </Text>
             <Text style={[styles.subtitle, { color: C.textSecondary, fontFamily: fontReg, textAlign: isRTL ? "right" : "left" }]}>
               {t("medicalWarning", lang)}
             </Text>
@@ -314,6 +317,12 @@ function Detail({
 const styles = StyleSheet.create({
   container: { flex: 1 },
   content: { padding: 16, gap: 16 },
+  pageHeader: {
+    alignItems: "center",
+    paddingTop: 4,
+    paddingBottom: 2,
+  },
+  pageTitle: { fontSize: 30, letterSpacing: -0.7 },
   header: {
     flexDirection: "row",
     alignItems: "center",
@@ -331,7 +340,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   headerText: { flex: 1, gap: 4 },
-  title: { fontSize: 28, letterSpacing: -0.6 },
   subtitle: { fontSize: 13, lineHeight: 19 },
   section: { gap: 10 },
   sectionLabel: { fontSize: 13, textTransform: "uppercase", letterSpacing: 0.6 },
