@@ -42,6 +42,7 @@ A polished mobile medication reminder app built with Expo Router.
 
 ### Features
 - **4 Screens**: Splash → Home Dashboard → Add/Edit Medication → Settings
+- **5 Screens**: Splash → Home Dashboard → Add/Edit Medication → Dose Calculator → Settings
 - **Bilingual**: Full English and Arabic support with RTL layout when Arabic is selected
 - **Light/Dark theme**: System-adaptive with manual override
 - **Smart countdown**: Real-time per-second countdown for each medication
@@ -51,12 +52,14 @@ A polished mobile medication reminder app built with Expo Router.
 - **Persistent storage**: All data saved with AsyncStorage
 - **Sorting**: By next due, overdue first, or alphabetical
 - **Search & Filter**: Real-time search with filter chips
+- **Dose Calculator**: Weight-based pediatric dose calculator using the attached dosage reference table, with searchable medicines, categories, frequency, concentration, and warnings.
 
 ### Key Files
 - `app/index.tsx` — Splash screen with animated entrance
 - `app/(tabs)/_layout.tsx` — Tab navigation (NativeTabs on iOS 26+ for liquid glass)
 - `app/(tabs)/index.tsx` — Home / Medications Dashboard
 - `app/(tabs)/add.tsx` — Add / Edit Medication Screen
+- `app/(tabs)/calculator.tsx` — Pediatric dose calculator from the attached reference table
 - `app/(tabs)/settings.tsx` — Settings Screen
 - `context/AppContext.tsx` — Global state management with AsyncStorage
 - `constants/colors.ts` — Theme colors (light/dark)

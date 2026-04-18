@@ -3,7 +3,7 @@ import { isLiquidGlassAvailable } from "expo-glass-effect";
 import { Tabs } from "expo-router";
 import { Icon, Label, NativeTabs } from "expo-router/unstable-native-tabs";
 import { SymbolView } from "expo-symbols";
-import { Feather } from "@expo/vector-icons";
+import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
 import { Platform, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -15,7 +15,6 @@ import { t } from "@/constants/i18n";
 function NativeTabLayout() {
   const { settings } = useApp();
   const lang = settings.language;
-  // Only show index, add, and settings in the main menu (no edit)
   return (
     <NativeTabs>
       <NativeTabs.Trigger name="index">
@@ -25,6 +24,10 @@ function NativeTabLayout() {
       <NativeTabs.Trigger name="add">
         <Icon sf={{ default: "plus.circle", selected: "plus.circle.fill" }} />
         <Label>{t("add", lang)}</Label>
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="calculator">
+        <Icon sf={{ default: "function", selected: "function" }} />
+        <Label>{t("doseCalculator", lang)}</Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="settings">
         <Icon sf={{ default: "gearshape", selected: "gearshape.fill" }} />
@@ -92,7 +95,6 @@ function ClassicTabLayout() {
           ) : null,
       }}
     >
-      {/* Only show index, add, and settings in the main menu (no edit) */}
       <Tabs.Screen
         name="index"
         options={{
@@ -122,6 +124,23 @@ function ClassicTabLayout() {
                 <SymbolView name="plus.circle" tintColor={color} size={24} />
               ) : (
                 <Feather name="plus-circle" size={28} color={color} />
+              )}
+            </View>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="calculator"
+        options={{
+          title: t("doseCalculator", lang),
+          headerTitleAlign: "center",
+          headerTitleStyle: { textAlign: "center" },
+          tabBarIcon: ({ color }) => (
+            <View style={centerTabIconStyle}>
+              {isIOS ? (
+                <SymbolView name="function" tintColor={color} size={24} />
+              ) : (
+                <MaterialCommunityIcons name="calculator-variant-outline" size={30} color={color} />
               )}
             </View>
           ),
