@@ -59,6 +59,9 @@ function ClassicTabLayout() {
           fontFamily: tabFont,
           fontSize: 11,
         },
+        tabBarItemStyle: {
+          marginHorizontal: 8,
+        },
         tabBarStyle: {
           position: "absolute",
           backgroundColor: isIOS ? "transparent" : C.surface,
@@ -74,7 +77,7 @@ function ClassicTabLayout() {
           borderTopRightRadius: 25, // Slightly rounded corners
           paddingBottom: safeAreaInsets.bottom,
           marginBottom: 0,
-          paddingHorizontal: 25, // Added horizontal padding
+          paddingHorizontal: 18,
           paddingVertical: 20, // Reasonable vertical padding
           height: 120,    // Increased height for main menu only
           alignItems: "center", // Center icons horizontally
