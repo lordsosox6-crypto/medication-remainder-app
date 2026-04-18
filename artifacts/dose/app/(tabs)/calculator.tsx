@@ -175,6 +175,7 @@ export default function CalculatorScreen() {
           isRTL && { direction: "rtl" },
         ]}
         keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
       >
         <View style={[styles.header, { backgroundColor: C.surface, borderColor: C.border }, isRTL && styles.rowReverse]}>
           <View style={[styles.headerIcon, { backgroundColor: C.primaryLight }]}>
