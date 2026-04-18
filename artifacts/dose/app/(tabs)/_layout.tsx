@@ -60,7 +60,10 @@ function ClassicTabLayout() {
           fontSize: 11,
         },
         tabBarItemStyle: {
-          marginHorizontal: 8,
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+          marginHorizontal: 0,
         },
         tabBarStyle: {
           position: "absolute",
@@ -77,11 +80,11 @@ function ClassicTabLayout() {
           borderTopRightRadius: 25, // Slightly rounded corners
           paddingBottom: safeAreaInsets.bottom,
           marginBottom: 0,
-          paddingHorizontal: 18,
+          paddingHorizontal: 28,
           paddingVertical: 20, // Reasonable vertical padding
           height: 120,    // Increased height for main menu only
-          alignItems: "center", // Center icons horizontally
-          justifyContent: "center", // Center icons vertically
+          alignItems: "stretch",
+          justifyContent: "space-between",
           ...(isWeb ? { height: 120 } : {}),
         },
         tabBarBackground: () =>
