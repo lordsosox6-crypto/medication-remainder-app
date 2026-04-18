@@ -9,6 +9,25 @@ import React, {
 } from "react";
 import { useColorScheme } from "react-native";
 import type { Language } from "@/constants/i18n";
+import * as Notifications from "expo-notifications";
+import { Platform } from "react-native";
+// Create alarm-like notification channel for Android
+async function ensureAlarmChannel() {
+  if (Platform.OS === "android") {
+    await Notifications.setNotificationChannelAsync("alarm", {
+      name: "Alarm",
+      importance: Notifications.AndroidImportance.MAX,
+      sound: "notify.wav",
+      vibrationPattern: [0, 500, 500, 500, 500],
+      lockscreenVisibility: Notifications.AndroidNotificationVisibility.PUBLIC,
+      audioAttributes: {
+        usage: Notifications.AndroidAudioUsage.ALARM,
+        contentType: Notifications.AndroidAudioContentType.SONIFICATION,
+        // flags removed: not available in Expo
+      },
+    });
+  }
+}
 
 export type MedicationType = "pill" | "injection";
 export type RouteType =
@@ -174,6 +193,7 @@ export function AppContextProvider({
 
   useEffect(() => {
     loadData();
+    ensureAlarmChannel();
   }, []);
 
   useEffect(() => {
@@ -209,43 +229,77 @@ export function AppContextProvider({
   }
 
   const addMedication = useCallback(
-    async (
-      data: Omit<
-        Medication,
-        | "id"
-        | "lastConfirmedAt"
-        | "nextDueAt"
-        | "isAlarmActive"
-        | "createdAt"
-        | "updatedAt"
-      >
-    ) => {
-      const now = new Date().toISOString();
-      const med: Medication = {
-        ...data,
-        id: generateId(),
-        lastConfirmedAt: null,
-        nextDueAt: data.startTime,
-        isAlarmActive: false,
-        createdAt: now,
-        updatedAt: now,
-      };
-      await saveMedications([...medications, med]);
-    },
-    [medications]
-  );
+  async (
+    data: Omit<
+      Medication,
+      | "id"
+      | "lastConfirmedAt"
+      | "nextDueAt"
+      | "isAlarmActive"
+      | "createdAt"
+      | "updatedAt"
+    >
+  ) => {
+    const now = new Date().toISOString();
+    const start = new Date(data.startTime); // ISO string → Date
+    const nextDue = new Date(start.getTime() + data.intervalHours * 60 * 60 * 1000).toISOString();
 
-  const updateMedication = useCallback(
-    async (id: string, data: Partial<Medication>) => {
-      const updated = medications.map((m) =>
-        m.id === id
-          ? { ...m, ...data, updatedAt: new Date().toISOString() }
-          : m
-      );
-      await saveMedications(updated);
-    },
-    [medications]
-  );
+    const med: Medication = {
+      ...data,
+      id: generateId(),
+      lastConfirmedAt: null,
+      nextDueAt: nextDue,       // ✅ properly calculated
+      isAlarmActive: false,
+      createdAt: now,
+      updatedAt: now,
+    };
+
+    await saveMedications([...medications, med]);
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "وقت الجرعة",
+        body: `الجرعة القادمة لـ ${med.name} اقتربت!`,
+        sound: "notify.wav",
+        vibrate: settings.vibration ? [0, 250, 250, 250] : undefined,
+      },
+      trigger: settings.persistentAlarm
+        ? { seconds: 60, repeats: true, type: "timeInterval" }
+        : { date: new Date(nextDue), type: "calendar" },
+      android: { channelId: "alarm" },
+    });
+
+  },
+  [medications]
+);
+
+
+
+const updateMedication = useCallback(
+  async (id: string, data: Partial<Medication>) => {
+    const updated = medications.map((m) => {
+      if (m.id !== id) return m;
+
+      const merged = { ...m, ...data };
+      let nextDueAt = merged.nextDueAt;
+
+      if (data.startTime || data.intervalHours) {
+        const start = new Date(merged.startTime);
+        nextDueAt = new Date(
+          start.getTime() + merged.intervalHours * 60 * 60 * 1000
+        ).toISOString();
+      }
+
+      return {
+        ...merged,
+        nextDueAt,
+        updatedAt: new Date().toISOString(),
+      };
+    });
+    
+    await saveMedications(updated);
+  },
+  [medications]
+);
 
   const deleteMedication = useCallback(
     async (id: string) => {
@@ -254,27 +308,43 @@ export function AppContextProvider({
     [medications]
   );
 
-  const confirmIntake = useCallback(
-    async (id: string) => {
-      const now = new Date();
-      const med = medications.find((m) => m.id === id);
-      if (!med) return;
-      const nextDue = new Date(
-        now.getTime() + med.intervalHours * 60 * 60 * 1000
-      );
-      const updated = medications.map((m) =>
-        m.id === id
-          ? {
-              ...m,
-              lastConfirmedAt: now.toISOString(),
-              nextDueAt: nextDue.toISOString(),
-              isAlarmActive: false,
-              updatedAt: now.toISOString(),
-            }
-          : m
-      );
-      await saveMedications(updated);
-    },
+const confirmIntake = useCallback(
+  async (id: string) => {
+    const now = new Date();
+    const med = medications.find((m) => m.id === id);
+    if (!med) return;
+
+    const nextDue = new Date(
+      now.getTime() + med.intervalHours * 60 * 60 * 1000
+    );
+
+    const updated = medications.map((m) =>
+      m.id === id
+        ? {
+            ...m,
+            lastConfirmedAt: now.toISOString(),
+            nextDueAt: nextDue.toISOString(),
+            isAlarmActive: false,
+            updatedAt: now.toISOString(),
+          }
+        : m
+    );
+    await saveMedications(updated);
+
+    // ✅ Schedule the next reminder after confirming intake
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: "وقت الجرعة",
+          body: `الجرعة القادمة لـ ${med.name} اقتربت!`,
+          sound: "notify.wav",
+          vibrate: settings.vibration ? [0, 250, 250, 250] : undefined,
+        },
+        trigger: settings.persistentAlarm
+          ? { seconds: 60, repeats: true, type: "timeInterval" }
+          : { date: new Date(nextDue), type: "calendar" },
+      });
+
+  },
     [medications]
   );
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   Platform,
 } from "react-native";
 import { router } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useApp } from "@/context/AppContext";
 import Colors from "@/constants/colors";
@@ -16,6 +17,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 const ND = Platform.OS !== "web";
 
 export default function SplashScreen() {
+  const [onboardingChecked, setOnboardingChecked] = useState(false);
   const { settings, isDark, loaded } = useApp();
   const C = isDark ? Colors.dark : Colors.light;
   const lang = settings.language;
@@ -64,15 +66,32 @@ export default function SplashScreen() {
         ])
       ).start();
     });
+    // Check onboarding status
+    (async () => {
+      try {
+        const seen = await AsyncStorage.getItem("onboardingComplete");
+        setOnboardingChecked(true);
+        if (!seen) {
+          setTimeout(() => router.replace("/onboarding"), 1200);
+        }
+      } catch {
+        setOnboardingChecked(true);
+      }
+    })();
   }, []);
 
   useEffect(() => {
-    if (!loaded) return;
-    const timer = setTimeout(() => {
-      router.replace("/(tabs)");
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, [loaded]);
+    if (!loaded || !onboardingChecked) return;
+    (async () => {
+      const seen = await AsyncStorage.getItem("onboardingComplete");
+      if (seen) {
+        const timer = setTimeout(() => {
+          router.replace("/(tabs)");
+        }, 1200);
+        return () => clearTimeout(timer);
+      }
+    })();
+  }, [loaded, onboardingChecked]);
 
   const webTopPadding = Platform.OS === "web" ? 67 : 0;
   const webBottomPadding = Platform.OS === "web" ? 34 : 0;
@@ -85,6 +104,8 @@ export default function SplashScreen() {
           backgroundColor: C.background,
           paddingTop: insets.top + webTopPadding,
           paddingBottom: insets.bottom + webBottomPadding,
+          borderRadius: 0,
+          overflow: "visible",
         },
       ]}
     >
@@ -151,6 +172,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingVertical: 60,
+    borderRadius: 0,
+    overflow: "visible",
   },
   content: {
     flex: 1,

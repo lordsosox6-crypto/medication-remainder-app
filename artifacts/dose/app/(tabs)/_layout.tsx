@@ -15,6 +15,7 @@ import { t } from "@/constants/i18n";
 function NativeTabLayout() {
   const { settings } = useApp();
   const lang = settings.language;
+  // Only show index, add, and settings in the main menu (no edit)
   return (
     <NativeTabs>
       <NativeTabs.Trigger name="index">
@@ -42,11 +43,13 @@ function ClassicTabLayout() {
   const C = isDark ? Colors.dark : Colors.light;
   const safeAreaInsets = useSafeAreaInsets();
   const tabFont = isArabic ? "Tajawal_500Medium" : "Inter_500Medium";
+  const centerTabIconStyle = { marginTop: 15, marginBottom: -20, flex: 1, justifyContent: "center" as const, alignItems: "center" as const };
 
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
+        tabBarShowLabel: false,
         tabBarActiveTintColor: C.primary,
         tabBarInactiveTintColor: C.tabIconDefault,
         tabBarLabelStyle: {
@@ -58,9 +61,22 @@ function ClassicTabLayout() {
           backgroundColor: isIOS ? "transparent" : C.surface,
           borderTopWidth: isWeb ? 1 : 0,
           borderTopColor: C.border,
-          elevation: 0,
+          // Shadow for iOS and Android
+          shadowColor: isDark ? C.primary : "#000",
+          shadowOffset: { width: 0, height: -6 },
+          shadowOpacity: 0.35,
+          shadowRadius: 24,
+          elevation: 24,
+          borderTopLeftRadius: 25, // Slightly rounded corners
+          borderTopRightRadius: 25, // Slightly rounded corners
           paddingBottom: safeAreaInsets.bottom,
-          ...(isWeb ? { height: 84 } : {}),
+          marginBottom: 0,
+          paddingHorizontal: 25, // Added horizontal padding
+          paddingVertical: 20, // Reasonable vertical padding
+          height: 120,    // Increased height for main menu only
+          alignItems: "center", // Center icons horizontally
+          justifyContent: "center", // Center icons vertically
+          ...(isWeb ? { height: 120 } : {}),
         },
         tabBarBackground: () =>
           isIOS ? (
@@ -76,40 +92,56 @@ function ClassicTabLayout() {
           ) : null,
       }}
     >
+      {/* Only show index, add, and settings in the main menu (no edit) */}
       <Tabs.Screen
         name="index"
         options={{
           title: t("home", lang),
-          tabBarIcon: ({ color }) =>
-            isIOS ? (
-              <SymbolView name="house" tintColor={color} size={24} />
-            ) : (
-              <Feather name="home" size={22} color={color} />
-            ),
+          headerTitleAlign: "center",
+           headerTitleStyle: { textAlign: "center" },
+          tabBarIcon: ({ color }) => (
+            <View style={centerTabIconStyle}>
+              {isIOS ? (
+                <SymbolView name="house" tintColor={color} size={24} />
+              ) : (
+                <Feather name="home" size={28} color={color} />
+              )}
+            </View>
+          ),
         }}
       />
       <Tabs.Screen
         name="add"
         options={{
           title: t("add", lang),
-          tabBarIcon: ({ color }) =>
-            isIOS ? (
-              <SymbolView name="plus.circle" tintColor={color} size={24} />
-            ) : (
-              <Feather name="plus-circle" size={22} color={color} />
-            ),
+          headerTitleAlign: "center",
+          headerTitleStyle: { textAlign: "center", fontSize: 28, letterSpacing: -0.5 },
+          tabBarIcon: ({ color }) => (
+            <View style={centerTabIconStyle}>
+              {isIOS ? (
+                <SymbolView name="plus.circle" tintColor={color} size={24} />
+              ) : (
+                <Feather name="plus-circle" size={28} color={color} />
+              )}
+            </View>
+          ),
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
           title: t("settings", lang),
-          tabBarIcon: ({ color }) =>
-            isIOS ? (
-              <SymbolView name="gearshape" tintColor={color} size={24} />
-            ) : (
-              <Feather name="settings" size={22} color={color} />
-            ),
+          headerTitleAlign: "center",
+           headerTitleStyle: { textAlign: "center" },
+          tabBarIcon: ({ color }) => (
+            <View style={centerTabIconStyle}>
+              {isIOS ? (
+                <SymbolView name="gearshape" tintColor={color} size={24} />
+              ) : (
+                <Feather name="settings" size={28} color={color} />
+              )}
+            </View>
+          ),
         }}
       />
     </Tabs>

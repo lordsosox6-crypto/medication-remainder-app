@@ -75,18 +75,42 @@ export default function SettingsScreen() {
       disabled={!onPress}
     >
       <View style={[styles.settingRowLeft, isRTL && styles.rowReverse]}>
-        <View style={[styles.settingIcon, { backgroundColor: C.primaryLight }]}>
+        <View style={[styles.settingIcon, { backgroundColor: C.primaryLight }]}> 
           {icon}
         </View>
-        <View style={isRTL && { alignItems: "flex-end" }}>
+        <View style={[{ flex: 1, minWidth: 0, maxWidth: '100%' }, isRTL && { alignItems: "flex-end" }]}> 
           <Text
-            style={[styles.settingLabel, { color: C.text, fontFamily: fontMed }]}
+            style={[
+              styles.settingLabel,
+              {
+                color: C.text,
+                fontFamily: fontMed,
+                flexWrap: 'wrap',
+                textAlign: isRTL ? 'right' : 'left',
+                wordBreak: 'break-word', // for web
+                width: '100%',
+              },
+            ]}
+            numberOfLines={3}
+            ellipsizeMode="tail"
           >
             {label}
           </Text>
           {value && (
             <Text
-              style={[styles.settingValue, { color: C.textSecondary, fontFamily: fontReg }]}
+              style={[
+                styles.settingValue,
+                {
+                  color: C.textSecondary,
+                  fontFamily: fontReg,
+                  flexWrap: 'wrap',
+                  textAlign: isRTL ? 'right' : 'left',
+                  wordBreak: 'break-word',
+                  width: '100%',
+                },
+              ]}
+              numberOfLines={3}
+              ellipsizeMode="tail"
             >
               {value}
             </Text>
@@ -115,7 +139,7 @@ export default function SettingsScreen() {
             {
               color: C.text,
               fontFamily: fontBold,
-              textAlign: isRTL ? "right" : "left",
+              textAlign: isRTL ? "center" : "center",
             },
           ]}
         >
@@ -304,7 +328,10 @@ export default function SettingsScreen() {
                 {t("description", lang)}
               </Text>
               <Text style={[styles.aboutVersion, { color: C.textMuted, fontFamily: fontReg }]}>
-                {t("version", lang)} 1.0.0
+                {lang === "ar" ? "صنع بواسطة: اسامة ادم" : "Created by: Osama Adam"}
+              </Text>
+              <Text style={[styles.aboutVersion, { color: C.textMuted, fontFamily: fontReg }]}>
+                {t("version", lang)} 1.3.0
               </Text>
             </View>
           </View>
@@ -320,6 +347,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 16,
     borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
   },
   headerTitle: { fontSize: 28, letterSpacing: -0.5 },
   content: { padding: 16, gap: 16 },

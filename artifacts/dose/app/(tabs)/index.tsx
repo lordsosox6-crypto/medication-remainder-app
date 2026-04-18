@@ -1,4 +1,11 @@
+
+import { useEffect } from "react";
+
+// ...existing code...
+
+
 import React, { useState, useMemo, useCallback, useRef } from "react";
+import { StatusBar } from "expo-status-bar";
 import {
   View,
   Text,
@@ -6,16 +13,19 @@ import {
   FlatList,
   Pressable,
   TextInput,
-  Alert,
   Animated,
   Platform,
+  Alert,
 } from "react-native";
+import ConfirmIntakeModal from "@/components/ConfirmIntakeModal";
+import DeleteConfirmModal from "@/components/DeleteConfirmModal";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
 import { MaterialCommunityIcons, Feather } from "@expo/vector-icons";
 import { router } from "expo-router";
 
 import Colors from "@/constants/colors";
+import * as Notifications from "expo-notifications";
 import { t } from "@/constants/i18n";
 import {
   useApp,
@@ -49,9 +59,11 @@ function StatusBadge({
     confirmed_recently: { bg: C.successLight, text: C.success, label: t("confirmedRecently", lang) },
   };
   const cfg = config[status];
+  // Helper to detect Arabic text
+  const isArabic = (text: string) => /[\u0600-\u06FF]/.test(text);
   return (
-    <View style={[styles.badge, { backgroundColor: cfg.bg }]}>
-      <Text style={[styles.badgeText, { color: cfg.text, fontFamily: lang === "ar" ? "Tajawal_500Medium" : "Inter_600SemiBold" }]}>
+    <View style={[styles.badge, { backgroundColor: cfg.bg }]}> 
+      <Text style={[styles.badgeText, { color: cfg.text, fontFamily: lang === "ar" || isArabic(cfg.label) ? "Tajawal_500Medium" : "Inter_600SemiBold" }]}> 
         {cfg.label}
       </Text>
     </View>
@@ -81,9 +93,10 @@ function MedicationCard({
   const progress = getProgressPercent(med);
   const { diff, isOverdue, formatted } = getTimeRemaining(med.nextDueAt);
   const scaleAnim = useRef(new Animated.Value(1)).current;
-  const fontFamily = lang === "ar" ? "Tajawal_500Medium" : "Inter_500Medium";
-  const fontBold = lang === "ar" ? "Tajawal_700Bold" : "Inter_700Bold";
-  const fontReg = lang === "ar" ? "Tajawal_400Regular" : "Inter_400Regular";
+  const isArabic = (text: string) => /[\u0600-\u06FF]/.test(text);
+  const fontFamily = (txt: string) => lang === "ar" || isArabic(txt) ? "Tajawal_500Medium" : "Inter_500Medium";
+  const fontBold = (txt: string) => lang === "ar" || isArabic(txt) ? "Tajawal_700Bold" : "Inter_700Bold";
+  const fontReg = (txt: string) => lang === "ar" || isArabic(txt) ? "Tajawal_400Regular" : "Inter_400Regular";
 
   const statusColors: Record<MedicationStatus, string> = {
     upcoming: C.info,
@@ -110,8 +123,8 @@ function MedicationCard({
   };
 
   const lastTakenStr = med.lastConfirmedAt
-    ? format(new Date(med.lastConfirmedAt), "HH:mm, MMM d")
-    : t("never", lang);
+      ? format(new Date(med.lastConfirmedAt), "HH:mm, MMM d")
+      : t("never", lang);
 
   const progressBarColor =
     status === "overdue"
@@ -123,35 +136,36 @@ function MedicationCard({
           : C.primary;
 
   return (
-    <Animated.View
-      style={[
-        styles.card,
-        {
-          backgroundColor: C.surface,
-          borderLeftWidth: 4,
-          borderLeftColor: borderColor,
-          transform: [{ scale: scaleAnim }],
-          writingDirection: isRTL ? "rtl" : "ltr",
-        },
-      ]}
-    >
-      <View style={[styles.cardHeader, isRTL && styles.rowReverse]}>
+    <View style={{ direction: isRTL ? "rtl" : "ltr" }}>
+      <Animated.View
+        style={[
+          styles.card,
+          {
+            backgroundColor: C.surface,
+            borderLeftWidth: 4,
+            borderLeftColor: borderColor,
+            transform: [{ scale: scaleAnim }],
+          },
+        ]}
+      >
+        
+        <View style={[styles.cardHeader, isRTL && styles.rowReverse]}>
         <View style={[styles.cardIcon, { backgroundColor: C.primaryLight }]}>
           <MaterialCommunityIcons
-            name={med.type === "pill" ? "pill" : "syringe"}
+            name={med.type === "pill" ? "pill" : "needle"}
             size={20}
             color={C.primary}
           />
         </View>
         <View style={[styles.cardTitleGroup, isRTL && { alignItems: "flex-end" }]}>
           <Text
-            style={[styles.cardName, { color: C.text, fontFamily: fontBold }]}
+            style={[styles.cardName, { color: C.text, fontFamily: fontBold(med.name) }]}
             numberOfLines={1}
           >
             {med.name}
           </Text>
           <Text
-            style={[styles.cardMeta, { color: C.textSecondary, fontFamily: fontReg }]}
+            style={[styles.cardMeta, { color: C.textSecondary, fontFamily: fontReg(`${med.doseAmount} · ${t(med.route as any, lang)} · ${t(`every${med.intervalHours}h` as any, lang)}`) }]}
           >
             {med.doseAmount} · {t(med.route as any, lang)} · {t(`every${med.intervalHours}h` as any, lang) || `${med.intervalHours}h`}
           </Text>
@@ -176,7 +190,7 @@ function MedicationCard({
       <View style={[styles.countdownRow, isRTL && styles.rowReverse]}>
         <View style={isRTL && { alignItems: "flex-end" }}>
           <Text
-            style={[styles.countdownLabel, { color: C.textMuted, fontFamily: fontReg }]}
+            style={[styles.countdownLabel, { color: C.textMuted, fontFamily: fontReg(isOverdue ? t("overdueBy", lang) : t("nextDoseIn", lang)) }]}
           >
             {isOverdue ? t("overdueBy", lang) : t("nextDoseIn", lang)}
           </Text>
@@ -185,7 +199,7 @@ function MedicationCard({
               styles.countdownTime,
               {
                 color: isOverdue ? C.danger : status === "due_now" ? C.warning : C.primary,
-                fontFamily: fontBold,
+                fontFamily: fontBold(isOverdue && status !== "confirmed_recently" ? formatted : status === "confirmed_recently" ? "✓" : formatted),
               },
             ]}
           >
@@ -193,10 +207,10 @@ function MedicationCard({
           </Text>
         </View>
         <View style={[styles.lastTakenGroup, isRTL && { alignItems: "flex-start" }]}>
-          <Text style={[styles.countdownLabel, { color: C.textMuted, fontFamily: fontReg }]}>
+          <Text style={[styles.countdownLabel, { color: C.textMuted, fontFamily: fontReg(t("lastTaken", lang)) }]}> 
             {t("lastTaken", lang)}
           </Text>
-          <Text style={[styles.lastTakenValue, { color: C.textSecondary, fontFamily: fontFamily }]}>
+          <Text style={[styles.lastTakenValue, { color: C.textSecondary, fontFamily: fontFamily(lastTakenStr) }]}> 
             {lastTakenStr}
           </Text>
         </View>
@@ -219,8 +233,8 @@ function MedicationCard({
           ]}
           onPress={() => handlePress(() => onConfirm(med.id))}
         >
-          <Feather name="check" size={16} color="#fff" />
-          <Text style={[styles.confirmBtnText, { fontFamily: fontFamily }]}>
+          <Feather name="check" size={16} color="#000" />
+          <Text style={[styles.confirmBtnText, { fontFamily: fontFamily(t("confirmIntake", lang)) }]}> 
             {t("confirmIntake", lang)}
           </Text>
         </Pressable>
@@ -245,9 +259,11 @@ function MedicationCard({
           <Feather name="trash-2" size={16} color={C.danger} />
         </Pressable>
       </View>
-    </Animated.View>
+      </Animated.View>
+    </View>
   );
 }
+
 
 export default function HomeScreen() {
   const { medications, settings, isDark, confirmIntake, deleteMedication, tick } = useApp();
@@ -311,51 +327,74 @@ export default function HomeScreen() {
     return list;
   }, [medications, filter, sortMode, searchText, tick]);
 
-  const handleConfirm = useCallback(
-    (id: string) => {
-      const med = medications.find((m) => m.id === id);
-      if (!med) return;
-      Alert.alert(
-        t("confirmTakenTitle", lang),
-        t("confirmTakenMsg", lang),
-        [
-          { text: t("cancel", lang), style: "cancel" },
-          {
-            text: t("confirm", lang),
-            onPress: async () => {
-              await confirmIntake(id);
-              Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-            },
-          },
-        ]
-      );
-    },
-    [medications, lang, confirmIntake]
-  );
 
-  const handleDelete = useCallback(
-    (id: string) => {
-      Alert.alert(
-        t("deleteConfirmTitle", lang),
-        t("deleteConfirmMsg", lang),
-        [
-          { text: t("cancel", lang), style: "cancel" },
-          {
-            text: t("delete", lang),
-            style: "destructive",
-            onPress: async () => {
-              await deleteMedication(id);
-              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+  // Schedule notifications for finish time and due_now status
+  React.useEffect(() => {
+    Notifications.cancelAllScheduledNotificationsAsync();
+    filtered.forEach((med: Medication) => {
+      const status = getMedicationStatus(med);
+      // Schedule finish time notification
+      if (med.nextDueAt) {
+        const finishTime = new Date(med.nextDueAt).getTime();
+        const now = Date.now();
+        if (finishTime > now) {
+          Notifications.scheduleNotificationAsync({
+            content: {
+              title: "حان وقت الدواء",
+              body: `${med.name} وقته الان!`,
+              sound: "notify.wav",
             },
-          },
-        ]
-      );
-    },
-    [lang, deleteMedication]
-  );
+            trigger: { type: 'timeInterval', seconds: Math.floor((finishTime - now) / 1000), repeats: false } as any,
+          });
+        }
+      }
+      // Schedule due_now (yellow) notification if not already due_now/overdue
+      if (status !== "due_now" && status !== "overdue" && med.nextDueAt) {
+        const dueNowTime = new Date(med.nextDueAt).getTime() - 30 * 60 * 1000; // 30 min before due
+        const now = Date.now();
+        if (dueNowTime > now) {
+          Notifications.scheduleNotificationAsync({
+            content: {
+              title: "أقترب موعد الدواء",
+              body: `${med.name} بقي 30 دقيقة على موعده!`,
+              sound: "notify.wav",
+            },
+            trigger: { type: 'timeInterval', seconds: Math.floor((dueNowTime - now) / 1000), repeats: false } as any,
+          });
+        }
+      }
+    });
+  }, [filtered, tick]);
 
+  const [confirmModal, setConfirmModal] = useState<{ visible: boolean; id: string | null }>({ visible: false, id: null });
+  const handleConfirm = useCallback((id: string) => {
+    setConfirmModal({ visible: true, id });
+  }, []);
+  const handleModalClose = () => setConfirmModal({ visible: false, id: null });
+  const handleModalConfirm = async () => {
+    if (confirmModal.id) {
+      await confirmIntake(confirmModal.id);
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    }
+    setConfirmModal({ visible: false, id: null });
+  };
+
+  const [deleteModal, setDeleteModal] = useState<{ visible: boolean; id: string | null }>({ visible: false, id: null });
+  const handleDelete = useCallback((id: string) => {
+    setDeleteModal({ visible: true, id });
+  }, []);
+  const handleDeleteModalClose = () => setDeleteModal({ visible: false, id: null });
+  const handleDeleteModalConfirm = async () => {
+    if (deleteModal.id) {
+      await deleteMedication(deleteModal.id);
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    }
+    setDeleteModal({ visible: false, id: null });
+  };
+
+  // The edit page is not shown in the main menu; only accessible from the edit button on each medication card
   const handleEdit = useCallback((id: string) => {
-    router.push({ pathname: "/(tabs)/add", params: { editId: id } });
+    router.push({ pathname: "/edit", params: { id } });
   }, []);
 
   const webTopPadding = Platform.OS === "web" ? 67 : 0;
@@ -370,7 +409,28 @@ export default function HomeScreen() {
   ];
 
   return (
-    <View style={[styles.container, { backgroundColor: C.background }]}>
+    <View style={[styles.container, { backgroundColor: C.background }]}> 
+      <StatusBar style={isDark ? "light" : "dark"} backgroundColor={C.background} translucent={false} />
+      <DeleteConfirmModal
+        visible={deleteModal.visible}
+        onClose={handleDeleteModalClose}
+        onDelete={handleDeleteModalConfirm}
+        title={t("deleteConfirmTitle", lang)}
+        message={t("deleteConfirmMsg", lang)}
+        deleteText={t("delete", lang)}
+        cancelText={t("cancel", lang)}
+        isDark={isDark}
+      />
+      <ConfirmIntakeModal
+        visible={confirmModal.visible}
+        onClose={handleModalClose}
+        onConfirm={handleModalConfirm}
+        title={t("confirmTakenTitle", lang)}
+        message={t("confirmTakenMsg", lang)}
+        confirmText={t("confirm", lang)}
+        cancelText={t("cancel", lang)}
+        isDark={isDark}
+      />
       <View
         style={[
           styles.header,
@@ -381,26 +441,27 @@ export default function HomeScreen() {
           },
         ]}
       >
-        <View style={[styles.headerTop, isRTL && styles.rowReverse]}>
-          <View style={isRTL && { alignItems: "flex-end" }}>
-            <Text style={[styles.headerTitle, { color: C.text, fontFamily: fontBold }]}>
-              {t("medications", lang)}
-            </Text>
-            <Text style={[styles.headerSubtitle, { color: C.textSecondary, fontFamily: fontReg }]}>
-              {overallCounts.total} {t("active", lang)}
-              {overallCounts.dueNow > 0 && ` · ${overallCounts.dueNow} ${t("dueNow", lang)}`}
-              {overallCounts.overdue > 0 && ` · ${overallCounts.overdue} ${t("overdue", lang)}`}
-            </Text>
-          </View>
-          <Pressable
-            style={({ pressed }) => [
-              styles.sortBtn,
-              { backgroundColor: C.surfaceSecondary, opacity: pressed ? 0.7 : 1 },
-            ]}
-            onPress={() => setShowSort(!showSort)}
-          >
-            <Feather name="sliders" size={18} color={C.textSecondary} />
-          </Pressable>
+<View style={[styles.headerTop, { flexDirection: "row" }]}>
+  <View style={{ flex: 1, alignItems: "center" }}>
+    <Text
+      style={[
+        styles.headerTitle,
+        { color: C.text, fontFamily: fontBold }
+      ]}
+    >
+      {t("medications", lang)}
+    </Text>
+    <Text
+      style={[
+        styles.headerSubtitle,
+        { color: C.textSecondary, fontFamily: fontReg }
+      ]}
+    >
+      {overallCounts.total} {t("active", lang)}
+      {overallCounts.dueNow > 0 && ` · ${overallCounts.dueNow} ${t("dueNow", lang)}`}
+      {overallCounts.overdue > 0 && ` · ${overallCounts.overdue} ${t("overdue", lang)}`}
+    </Text>
+  </View>
         </View>
 
         {showSort && (
@@ -516,7 +577,7 @@ export default function HomeScreen() {
                 styles.emptyBtn,
                 { backgroundColor: C.primary, opacity: pressed ? 0.85 : 1 },
               ]}
-              onPress={() => router.push("/(tabs)/add")}
+              onPress={() => router.push({ pathname: "/(tabs)/add", params: {} })}
             >
               <Feather name="plus" size={16} color="#fff" />
               <Text style={[styles.emptyBtnText, { fontFamily: fontMed }]}>
@@ -537,6 +598,8 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
     gap: 10,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
   },
   headerTop: {
     flexDirection: "row",
@@ -570,7 +633,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
-    borderRadius: 12,
+    borderRadius: 22,
     borderWidth: 1,
     paddingHorizontal: 12,
     paddingVertical: 10,
@@ -580,6 +643,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 8,
     flexWrap: "wrap",
+    justifyContent: "center",
   },
   filterChip: {
     paddingHorizontal: 12,
@@ -652,7 +716,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   confirmBtnText: {
-    color: "#fff",
+    color: "#000",
     fontSize: 14,
   },
   iconBtn: {

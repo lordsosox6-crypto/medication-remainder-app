@@ -12,22 +12,28 @@ import {
 } from "@expo-google-fonts/inter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
+
 import React, { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
+import * as Notifications from "expo-notifications";   // ✅ import notifications
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AppContextProvider } from "@/context/AppContext";
-
-SplashScreen.preventAutoHideAsync();
 
 const queryClient = new QueryClient();
 
 function RootLayoutNav() {
   return (
-    <Stack screenOptions={{ headerShown: false }}>
+    <Stack
+      screenOptions={{
+        headerShown: false,
+        presentation: 'transparentModal', // Show previous page behind
+        // cardStyle removed: not a valid prop for NativeStackNavigationOptions
+        animation: 'slide_from_right', // Slide in/out for all screens
+      }}
+    >
       <Stack.Screen name="index" />
       <Stack.Screen name="(tabs)" />
     </Stack>
@@ -46,10 +52,37 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    if (fontsLoaded || fontError) {
-      SplashScreen.hideAsync();
+    async function setupNotifications() {
+      // Ask for notification permissions
+      const { status } = await Notifications.requestPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Notification permissions not granted");
+      }
+
+      // Configure foreground behavior (show alerts while app is open)
+      Notifications.setNotificationHandler({
+        handleNotification: async () => ({
+          shouldShowAlert: true,
+          shouldPlaySound: true,
+          shouldSetBadge: false,
+          shouldShowBanner: true,
+          shouldShowList: true,
+        }),
+      });
+
+      // TEST: Schedule a notification 5 seconds from now
+      Notifications.scheduleNotificationAsync({
+        content: {
+          title: "مرحبا بك!",
+          body: "يمكنمك الآن تتبع أدويتك بسهولة مع تابيرا.",
+          sound: true,
+        },
+        trigger: { type: 'timeInterval', seconds: 5 },
+      });
     }
-  }, [fontsLoaded, fontError]);
+
+    setupNotifications();
+  }, []);
 
   if (!fontsLoaded && !fontError) return null;
 
@@ -69,3 +102,4 @@ export default function RootLayout() {
     </SafeAreaProvider>
   );
 }
+
