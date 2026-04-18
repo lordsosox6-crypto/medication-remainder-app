@@ -41,10 +41,10 @@ artifacts-monorepo/
 A polished mobile medication reminder app built with Expo Router.
 
 ### Features
-- **4 Screens**: Splash → Home Dashboard → Add/Edit Medication → Settings
 - **5 Screens**: Splash → Home Dashboard → Add/Edit Medication → Dose Calculator → Settings
 - **Bilingual**: Full English and Arabic support with RTL layout when Arabic is selected
 - **Light/Dark theme**: System-adaptive with manual override
+- **Kid-friendly purple theme**: Purple primary palette across light/dark modes, splash screen, and edit form surfaces
 - **Smart countdown**: Real-time per-second countdown for each medication
 - **Medication tracking**: Add pills/injections with recurrence intervals (2h, 4h, 6h, 8h, 12h, 24h)
 - **Status system**: Upcoming, Due Now, Overdue, Confirmed Recently states
@@ -62,7 +62,7 @@ A polished mobile medication reminder app built with Expo Router.
 - `app/(tabs)/calculator.tsx` — Pediatric dose calculator from the attached reference table
 - `app/(tabs)/settings.tsx` — Settings Screen
 - `context/AppContext.tsx` — Global state management with AsyncStorage
-- `constants/colors.ts` — Theme colors (light/dark)
+- `constants/colors.ts` — Purple theme colors (light/dark)
 - `constants/i18n.ts` — English/Arabic translation strings
 
 ### Tech Stack
