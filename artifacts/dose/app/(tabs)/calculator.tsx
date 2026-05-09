@@ -31,76 +31,403 @@ type DoseEntry = {
 };
 
 const DOSE_ENTRIES: DoseEntry[] = [
-  { id: "diazepam-iv", name: "Diazepam injection IV", category: "Injections/Infusions", concentration: "10mg/2ml", dose: "0.3mg/kg/dose", frequency: "Maximum 2 times", unit: "mg", multiplier: 0.3 },
-  { id: "diazepam-rectal", name: "Diazepam rectal", category: "Injections/Infusions", concentration: "10mg/2ml", dose: "0.5mg/kg/dose", frequency: "Maximum 2 times", unit: "mg", multiplier: 0.5 },
-  { id: "phenytoin-load", name: "Phenytoin loading dose", category: "Injections/Infusions", concentration: "250mg/5ml", dose: "15-20mg/kg", frequency: "Now, slow IV in 50ml NS over 1/2 to 1 hour", unit: "mg", minMultiplier: 15, maxMultiplier: 20 },
-  { id: "phenytoin-maint", name: "Phenytoin maintenance", category: "Injections/Infusions", concentration: "250mg/5ml", dose: "5mg/kg/day", frequency: "After 12 hours from loading dose, BD", unit: "mg/day", multiplier: 5 },
-  { id: "midazolam-load", name: "Midazolam IV loading", category: "Injections/Infusions", concentration: "1mg/1ml", dose: "0.2mg/kg", frequency: "Now", unit: "mg", multiplier: 0.2 },
-  { id: "midazolam-maint", name: "Midazolam IV maintenance", category: "Injections/Infusions", concentration: "1mg/1ml", dose: "0.02mg/kg", frequency: "Maintenance dose", unit: "mg", multiplier: 0.02 },
-  { id: "chlorpheniramine", name: "Antihistamine / Chlorpheniramine", category: "Injections/Infusions", concentration: "10mg/1ml", dose: "Wt x 0.1", frequency: "As required", unit: "ml", multiplier: 0.1, notes: "Less than 2 years: 2-5mg; 2-5 years: 5mg; more than 5 years: 10mg" },
-  { id: "dexamethasone-meningitis", name: "Dexamethasone meningitis", category: "Injections/Infusions", concentration: "4mg/1ml", dose: "0.15mg/kg", frequency: "6 hourly for 24 hours", unit: "mg", multiplier: 0.15 },
-  { id: "dexamethasone-croup", name: "Dexamethasone croup", category: "Injections/Infusions", concentration: "4mg/1ml", dose: "0.6mg/kg IM", frequency: "Single dose", unit: "mg", multiplier: 0.6 },
-  { id: "adrenaline-anaphylaxis", name: "Adrenaline 1:1000 anaphylaxis", category: "Injections/Infusions", concentration: "1mg/1ml", dose: "Wt x 0.01", frequency: "As required", unit: "ml", multiplier: 0.01 },
-  { id: "adrenaline-cpr", name: "Adrenaline 1:10,000 CPR", category: "Injections/Infusions", concentration: "1mg/1ml", dose: "Wt x 0.1", frequency: "As required", unit: "ml", multiplier: 0.1 },
-  { id: "hydrocortisone", name: "Hydrocortisone injection", category: "Injections/Infusions", concentration: "100mg", dose: "5mg/kg/dose", frequency: "6 hourly", unit: "mg", multiplier: 5 },
-  { id: "lasix-inj", name: "Lasix injection", category: "Injections/Infusions", concentration: "20mg/2ml", dose: "1-2mg/kg/day", frequency: "TDS or BD", unit: "mg/day", minMultiplier: 1, maxMultiplier: 2 },
-  { id: "ondansetron", name: "Ondansetron slow IV", category: "Injections/Infusions", concentration: "4mg/1ml or 8mg/2ml", dose: "0.1mg/kg/dose", frequency: "TDS", unit: "mg", multiplier: 0.1 },
-  { id: "calcium-gluconate-load", name: "Calcium gluconate 10% loading", category: "Injections/Infusions", dose: "2ml/kg", frequency: "Now, diluted in D5% 1:4 over 1/2 to 1 hour", unit: "ml", multiplier: 2 },
-  { id: "calcium-gluconate-maint", name: "Calcium gluconate 10% maintenance", category: "Injections/Infusions", dose: "5-7ml/kg", frequency: "Over 24 hours", unit: "ml", minMultiplier: 5, maxMultiplier: 7 },
-  { id: "paracetamol-iv", name: "Paracetamol IV infusion", category: "Injections/Infusions", concentration: "1g/100ml", dose: "Wt x 1-1.5ml", frequency: "6 hourly for 24 hours then PRN", unit: "ml", minMultiplier: 1, maxMultiplier: 1.5 },
-  { id: "diclofenac-im", name: "Diclofenac sodium IM", category: "Injections/Infusions", concentration: "75mg/3ml", dose: "1mg/kg", frequency: "TDS or BD", unit: "mg", multiplier: 1, notes: "For babies older than 6 months" },
-  { id: "ampicillin-inj", name: "Ampicillin injection", category: "Injections/Infusions", concentration: "500mg", dose: "25mg/kg/dose", frequency: "6 hourly or TDS", unit: "mg", multiplier: 25 },
-  { id: "gentamycin-dose", name: "Gentamycin injection per dose", category: "Injections/Infusions", concentration: "80mg/2ml or 40mg/1ml", dose: "2.5mg/kg/dose", frequency: "TDS", unit: "mg", multiplier: 2.5 },
-  { id: "gentamycin-day", name: "Gentamycin injection daily", category: "Injections/Infusions", concentration: "80mg/2ml or 40mg/1ml", dose: "7.5mg/kg/day", frequency: "OD", unit: "mg/day", multiplier: 7.5 },
-  { id: "vancomycin", name: "Vancomycin IV", category: "Injections/Infusions", concentration: "500mg/1g", dose: "10-15mg/kg/dose", frequency: "BD or TDS", unit: "mg", minMultiplier: 10, maxMultiplier: 15 },
-  { id: "artesunate-small", name: "Artesunate less than 20kg", category: "Injections/Infusions", concentration: "30mg/60mg/120mg", dose: "3mg/kg", frequency: "Every 12 hours for 3 doses then 24 hourly to complete 7 doses", unit: "mg", multiplier: 3 },
-  { id: "artesunate-large", name: "Artesunate more than 20kg", category: "Injections/Infusions", concentration: "30mg/60mg/120mg", dose: "2.4mg/kg", frequency: "Every 12 hours for 3 doses then 24 hourly to complete 7 doses", unit: "mg", multiplier: 2.4 },
-  { id: "quinine-inj", name: "Quinine injection IV", category: "Injections/Infusions", concentration: "600mg/2ml", dose: "10mg/kg/dose", frequency: "TDS", unit: "mg", multiplier: 10 },
-  { id: "acyclovir-inj", name: "Acyclovir injection IV", category: "Injections/Infusions", concentration: "250mg", dose: "10mg/kg/dose", frequency: "TDS for 7 days", unit: "mg", multiplier: 10 },
-  { id: "cefotaxime", name: "Cefotaxime injection", category: "Injections/Infusions", concentration: "500mg/1g", dose: "50mg/kg/dose", frequency: "TDS", unit: "mg", multiplier: 50 },
-  { id: "cefotaxime-meningitis", name: "Cefotaxime meningitis", category: "Injections/Infusions", concentration: "500mg/1g", dose: "100mg/kg/dose", frequency: "BD in neonate", unit: "mg", multiplier: 100 },
-  { id: "ceftriaxone", name: "Ceftriaxone IV", category: "Injections/Infusions", concentration: "500mg/1g", dose: "50mg/kg/dose", frequency: "OD, BD if dose is more than 1g", unit: "mg", multiplier: 50 },
-  { id: "ceftriaxone-sca", name: "Ceftriaxone in SCA", category: "Injections/Infusions", concentration: "500mg/1g", dose: "80mg/kg/dose", frequency: "OD", unit: "mg", multiplier: 80 },
-  { id: "ceftriaxone-meningitis", name: "Ceftriaxone meningitis", category: "Injections/Infusions", concentration: "500mg/1g", dose: "100mg/kg/dose", frequency: "Infuse in 100ml D5% + 1/2 NS over 1/2 to 1 hour", unit: "mg", multiplier: 100 },
-  { id: "cefuroxime-inj", name: "Cefuroxime injection", category: "Injections/Infusions", concentration: "750mg/1.5g", dose: "30mg/kg/dose", frequency: "TDS", unit: "mg", multiplier: 30 },
-  { id: "ceftazidime", name: "Ceftazidime injection", category: "Injections/Infusions", concentration: "500mg/1g", dose: "30-50mg/kg/dose", frequency: "BD or TDS", unit: "mg", minMultiplier: 30, maxMultiplier: 50 },
-  { id: "aminophylline-load", name: "Aminophylline loading", category: "Injections/Infusions", concentration: "25mg/1ml", dose: "5mg/kg", frequency: "Now direct", unit: "mg", multiplier: 5 },
-  { id: "aminophylline-maint", name: "Aminophylline maintenance", category: "Injections/Infusions", concentration: "25mg/1ml", dose: "2mg/kg", frequency: "Every 12 hours in 20ml NS over 1/2 to 1 hour", unit: "mg", multiplier: 2 },
-  { id: "magnesium-sulphate", name: "Magnesium sulphate injection", category: "Injections/Infusions", dose: "25-50mg/kg/dose", frequency: "As directed", unit: "mg", minMultiplier: 25, maxMultiplier: 50 },
-  { id: "metronidazole-iv", name: "Metronidazole IV infusion", category: "Injections/Infusions", dose: "7.5mg/kg/dose", frequency: "TDS", unit: "mg", multiplier: 7.5 },
-  { id: "streptomycin", name: "Streptomycin injection", category: "Injections/Infusions", dose: "40mg/kg/day", frequency: "OD", unit: "mg/day", multiplier: 40 },
-  { id: "morphine", name: "Morphine injection IM/SC", category: "Injections/Infusions", concentration: "10mg/1ml", dose: "0.1-0.2mg/kg/dose", frequency: "OD", unit: "mg", minMultiplier: 0.1, maxMultiplier: 0.2 },
-  { id: "meropenem", name: "Meropenem IV", category: "Injections/Infusions", concentration: "500mg/1g", dose: "20mg/kg/dose", frequency: "TDS", unit: "mg", multiplier: 20 },
-  { id: "meropenem-meningitis", name: "Meropenem meningitis", category: "Injections/Infusions", concentration: "500mg/1g", dose: "40mg/kg/dose", frequency: "TDS", unit: "mg", multiplier: 40 },
-  { id: "amikacin", name: "Amikacin injection IV", category: "Injections/Infusions", concentration: "500mg/2ml", dose: "10mg/kg/day", frequency: "As directed", unit: "mg/day", multiplier: 10 },
-  { id: "paracetamol-syrup", name: "Paracetamol syrup 120mg", category: "Syrups/Suspensions", dose: "Wt x 0.4 or Wt / 2", frequency: "4 to 6 hourly", unit: "ml", multiplier: 0.4, notes: "The file also lists Wt / 2 as an alternative." },
-  { id: "mefenamic-syrup", name: "Mefenamic acid syrup 50mg", category: "Syrups/Suspensions", dose: "(Wt / 2) + 1ml", frequency: "TDS", unit: "ml", multiplier: 0.5, notes: "Add 1ml to the calculated value. For baby older than 6 months." },
-  { id: "ibuprofen-syrup", name: "Ibuprofen syrup 100mg", category: "Syrups/Suspensions", dose: "Wt / 2", frequency: "6 to 8 hourly", unit: "ml", multiplier: 0.5 },
-  { id: "balsam-cough", name: "Balsam cough syrup", category: "Syrups/Suspensions", dose: "Wt / 4", frequency: "TDS for 5 days", unit: "ml", multiplier: 0.25 },
-  { id: "amoxicillin-125", name: "Amoxicillin syrup 125mg", category: "Syrups/Suspensions", dose: "Wt / 2", frequency: "TDS for 7 days", unit: "ml", multiplier: 0.5 },
-  { id: "amoxicillin-250", name: "Amoxicillin syrup 250mg", category: "Syrups/Suspensions", dose: "Wt / 4", frequency: "TDS for 7 days", unit: "ml", multiplier: 0.25 },
-  { id: "amoclan-200", name: "Amoclan syrup 200mg", category: "Syrups/Suspensions", dose: "Wt / 2", frequency: "BD for 7 days", unit: "ml", multiplier: 0.5 },
-  { id: "amoclan-400", name: "Amoclan syrup 400mg", category: "Syrups/Suspensions", dose: "Wt / 4", frequency: "BD for 7 days", unit: "ml", multiplier: 0.25 },
-  { id: "ampiclox", name: "Ampiclox 250mg suspension", category: "Syrups/Suspensions", dose: "Wt / 4", frequency: "6 hourly for 7 days", unit: "ml", multiplier: 0.25 },
-  { id: "azithromycin-susp", name: "Azithromycin 200mg suspension", category: "Syrups/Suspensions", dose: "Wt / 4", frequency: "OD for 3 days", unit: "ml", multiplier: 0.25 },
-  { id: "clarithromycin-125", name: "Clarithromycin syrup 125mg", category: "Syrups/Suspensions", dose: "Wt x 0.6", frequency: "BD for 7 days", unit: "ml", multiplier: 0.6 },
-  { id: "clarithromycin-250", name: "Clarithromycin syrup 250mg", category: "Syrups/Suspensions", dose: "Wt x 0.3", frequency: "BD for 7 days", unit: "ml", multiplier: 0.3 },
-  { id: "cefixime-susp", name: "Cefixime 100mg suspension", category: "Syrups/Suspensions", dose: "Wt x 0.4", frequency: "OD or BD for 6 days", unit: "ml", multiplier: 0.4 },
-  { id: "salbutamol-syrup", name: "Salbutamol syrup 2mg", category: "Syrups/Suspensions", dose: "Wt x 0.3", frequency: "TDS", unit: "ml", multiplier: 0.3 },
-  { id: "metronidazole-syrup", name: "Metronidazole syrup 200mg", category: "Syrups/Suspensions", dose: "7.5mg/kg/dose, 1ml=40mg", frequency: "TDS for 7 days", unit: "mg", multiplier: 7.5 },
-  { id: "acyclovir-syrup", name: "Acyclovir syrup 200mg", category: "Syrups/Suspensions", dose: "Wt / 4", frequency: "TDS for 7 days", unit: "ml", multiplier: 0.25 },
-  { id: "domperidone-syrup", name: "Domperidone syrup", category: "Syrups/Suspensions", dose: "Wt / 4", frequency: "TDS", unit: "ml", multiplier: 0.25 },
-  { id: "paracetamol-tabs", name: "Paracetamol tablets", category: "Tablets/Capsules", concentration: "250mg or 500mg", dose: "10-15mg/kg/dose", frequency: "6 hourly then PRN", unit: "mg", minMultiplier: 10, maxMultiplier: 15 },
-  { id: "ibuprofen-tabs", name: "Ibuprofen tablets", category: "Tablets/Capsules", concentration: "200mg or 400mg", dose: "10mg/kg/dose", frequency: "BD or TDS", unit: "mg", multiplier: 10 },
-  { id: "amoxicillin-caps", name: "Amoxicillin capsules", category: "Tablets/Capsules", concentration: "250mg or 500mg", dose: "80mg/kg/day", frequency: "TDS for 5 or 7 days", unit: "mg/day", multiplier: 80 },
-  { id: "azithromycin-tabs", name: "Azithromycin tablets/capsules", category: "Tablets/Capsules", concentration: "250mg or 500mg", dose: "10mg/kg/dose", frequency: "OD for 3 or 5 days", unit: "mg", multiplier: 10 },
-  { id: "cefixime-caps", name: "Cefixime capsules", category: "Tablets/Capsules", concentration: "200mg or 400mg", dose: "8mg/kg/dose", frequency: "OD for 5 or 6 days", unit: "mg", multiplier: 8 },
-  { id: "acyclovir-tabs", name: "Acyclovir tablets", category: "Tablets/Capsules", concentration: "200mg or 400mg", dose: "20mg/kg/dose", frequency: "TDS for 5 to 7 days", unit: "mg", multiplier: 20 },
-  { id: "metronidazole-tabs", name: "Metronidazole tablets", category: "Tablets/Capsules", concentration: "250mg or 500mg", dose: "7.5mg/kg/dose", frequency: "TDS for 5 to 10 days", unit: "mg", multiplier: 7.5 },
-  { id: "omeprazole-tabs", name: "Omeprazole tablets", category: "Tablets/Capsules", concentration: "20mg or 40mg", dose: "1mg/kg/dose", frequency: "OD on empty stomach or before meal by half an hour", unit: "mg", multiplier: 1 },
-  { id: "phenobarbitone-load", name: "Phenobarbitone loading", category: "Tablets/Capsules", concentration: "30mg", dose: "15-20mg/kg", frequency: "Loading dose", unit: "mg", minMultiplier: 15, maxMultiplier: 20 },
-  { id: "phenobarbitone-maint", name: "Phenobarbitone maintenance", category: "Tablets/Capsules", concentration: "30mg", dose: "5mg/kg/day", frequency: "BD then adjusted according to response", unit: "mg/day", multiplier: 5 },
-  { id: "hydroxyurea", name: "Hydroxyurea capsules", category: "Tablets/Capsules", concentration: "500mg", dose: "15-20mg/kg", frequency: "OD then increased according to response", unit: "mg", minMultiplier: 15, maxMultiplier: 20, notes: "Described first by specialist" },
+  // ── INJECTIONS / INFUSIONS ──────────────────────────────────────────────────
+  // Adrenaline (Epinephrine)
+  { id: "adrenaline-anaphylaxis", name: "Adrenaline (Epinephrine) anaphylaxis IM", category: "Injections/Infusions", concentration: "1:1000", dose: "0.01mg/kg/dose", frequency: "As required", unit: "mg", multiplier: 0.01 },
+  { id: "adrenaline-cpr", name: "Adrenaline (Epinephrine) cardiac arrest IV", category: "Injections/Infusions", concentration: "1:10,000", dose: "0.01mg/kg/dose", frequency: "As required", unit: "mg", multiplier: 0.01 },
+  { id: "adrenaline-neb", name: "Adrenaline (Epinephrine) nebulized", category: "Injections/Infusions", concentration: "1:1000", dose: "0.5ml/kg of 1:1000. Max 5ml/session", frequency: "Max 5ml/session", unit: "ml", multiplier: 0.5 },
+  // Artesunate injection
+  { id: "artesunate-small", name: "Artesunate injection less than 20kg", category: "Injections/Infusions", concentration: "30mg, 60mg, 120mg", dose: "wt x 3 per dose", frequency: "Doses 1, 2, 3", unit: "mg", multiplier: 3 },
+  { id: "artesunate-large", name: "Artesunate injection 20kg or more", category: "Injections/Infusions", concentration: "30mg, 60mg, 120mg", dose: "wt x 2.4 per dose", frequency: "Doses 1, 2, 3", unit: "mg", multiplier: 2.4 },
+  // Albumin
+  { id: "albumin", name: "Albumin IV (hypoalbuminaemia)", category: "Injections/Infusions", dose: "0.5 - 1g/kg/dose, for 1 - 2 days. Max 25g/dose", frequency: "Over 120 minutes", unit: "g", minMultiplier: 0.5, maxMultiplier: 1 },
+  // Aciclovir injection
+  { id: "aciclovir-inj-regular", name: "Aciclovir injection regular dose", category: "Injections/Infusions", concentration: "200mg, 250mg, 500mg, 1g", dose: "10mg/kg/dose, 8 hourly", frequency: "8 hourly", unit: "mg", multiplier: 10 },
+  { id: "aciclovir-inj-enceph-child", name: "Aciclovir injection sepsis/encephalitis birth to 12yrs", category: "Injections/Infusions", concentration: "200mg, 250mg, 500mg, 1g", dose: "20mg/kg/dose, 8 hourly", frequency: "8 hourly", unit: "mg", multiplier: 20 },
+  { id: "aciclovir-inj-enceph-adult", name: "Aciclovir injection encephalitis more than 12yrs", category: "Injections/Infusions", concentration: "200mg, 250mg, 500mg, 1g", dose: "30mg/kg/day, 8 hourly", frequency: "8 hourly", unit: "mg/day", multiplier: 30 },
+  // Amikacin
+  { id: "amikacin", name: "Amikacin injection", category: "Injections/Infusions", concentration: "250mg/ml, 500mg/ml", dose: "15 - 22.5mg/kg/day, Od, BD, or TDS", frequency: "OD, BD, or TDS", unit: "mg/day", minMultiplier: 15, maxMultiplier: 22.5 },
+  // Aminophylline (asthma exacerbation)
+  { id: "aminophylline-load", name: "Aminophylline loading dose", category: "Injections/Infusions", concentration: "250mg/10ml, 500mg/20ml", dose: "5 - 6mg/kg in 20 - 30 minutes", frequency: "Now, over 20 - 30 minutes", unit: "mg", minMultiplier: 5, maxMultiplier: 6 },
+  { id: "aminophylline-maint-young", name: "Aminophylline maintenance 1month - 11yrs", category: "Injections/Infusions", concentration: "250mg/10ml, 500mg/20ml", dose: "1mg/kg/hour", frequency: "Continuous infusion", unit: "mg/hr", multiplier: 1 },
+  { id: "aminophylline-maint-older", name: "Aminophylline maintenance 12yrs - 17yrs", category: "Injections/Infusions", concentration: "250mg/10ml, 500mg/20ml", dose: "0.5 - 0.7mg/kg/hour", frequency: "Continuous infusion", unit: "mg/hr", minMultiplier: 0.5, maxMultiplier: 0.7 },
+  // Ampicillin
+  { id: "ampicillin-regular", name: "Ampicillin injection regular dose", category: "Injections/Infusions", concentration: "250mg, 500mg, 1g", dose: "50 - 100mg/kg/day, 6 hourly", frequency: "6 hourly", unit: "mg/day", minMultiplier: 50, maxMultiplier: 100 },
+  { id: "ampicillin-meningitis", name: "Ampicillin injection meningitis", category: "Injections/Infusions", concentration: "250mg, 500mg, 1g", dose: "200 - 400mg/kg/day, 4 - 6 hourly. Max 8 - 12g/day", frequency: "4 - 6 hourly", unit: "mg/day", minMultiplier: 200, maxMultiplier: 400 },
+  // Benzyl penicillin (Penicillin G)
+  { id: "benzylpen-moderate", name: "Benzyl penicillin (Penicillin G) moderate/severe", category: "Injections/Infusions", concentration: "1 million units, 5 million units", dose: "100,000 - 250,000 u/kg/day, 4 - 6 hourly", frequency: "4 - 6 hourly", unit: "u/day", minMultiplier: 100000, maxMultiplier: 250000 },
+  { id: "benzylpen-meningitis", name: "Benzyl penicillin (Penicillin G) meningitis", category: "Injections/Infusions", concentration: "1 million units, 5 million units", dose: "250,000 - 400,000 u/kg/day", frequency: "4 - 6 hourly", unit: "u/day", minMultiplier: 250000, maxMultiplier: 400000 },
+  // Blood transfusion
+  { id: "blood-packed-rbcs", name: "Blood transfusion packed RBCs", category: "Injections/Infusions", dose: "10 - 15ml/kg", frequency: "As directed", unit: "ml", minMultiplier: 10, maxMultiplier: 15 },
+  { id: "blood-whole", name: "Blood transfusion whole blood", category: "Injections/Infusions", dose: "20ml/kg", frequency: "As directed", unit: "ml", multiplier: 20 },
+  { id: "blood-platelets", name: "Blood transfusion platelets", category: "Injections/Infusions", dose: "10 - 15ml/kg", frequency: "As directed", unit: "ml", minMultiplier: 10, maxMultiplier: 15 },
+  // Calcium gluconate
+  { id: "calcium-gluconate-bolus", name: "Calcium gluconate bolus (convulsions)", category: "Injections/Infusions", dose: "0.5 - 2ml/kg in 20 minutes in Dextrose 10% (1:4 concentration)", frequency: "Now, over 20 minutes", unit: "ml", minMultiplier: 0.5, maxMultiplier: 2 },
+  { id: "calcium-gluconate-maint", name: "Calcium gluconate maintenance", category: "Injections/Infusions", dose: "0.5 - 1.5ml/kg/hour", frequency: "Continuous infusion", unit: "ml/hr", minMultiplier: 0.5, maxMultiplier: 1.5 },
+  // Cefepime
+  { id: "cefepime", name: "Cefepime injection 4th gen cephalosporin", category: "Injections/Infusions", concentration: "500mg, 1g, 2g", dose: "50mg/kg/dose, TDS. Max 2g/dose", frequency: "TDS", unit: "mg", multiplier: 50 },
+  // Cefotaxime
+  { id: "cefotaxime-regular", name: "Cefotaxime injection regular dose", category: "Injections/Infusions", concentration: "500mg, 1g", dose: "150 - 200mg/kg/day, 6 - 8 hourly", frequency: "6 - 8 hourly", unit: "mg/day", minMultiplier: 150, maxMultiplier: 200 },
+  { id: "cefotaxime-meningitis", name: "Cefotaxime injection meningitis", category: "Injections/Infusions", concentration: "500mg, 1g", dose: "200mg/kg/day, 6 - 8 hourly. Max 12g/day", frequency: "6 - 8 hourly", unit: "mg/day", multiplier: 200 },
+  // Ceftazidime (Fortum)
+  { id: "ceftazidime-regular", name: "Ceftazidime (Fortum) injection regular dose", category: "Injections/Infusions", concentration: "500mg, 1g", dose: "100 - 150mg/kg/day, TDS", frequency: "TDS", unit: "mg/day", minMultiplier: 100, maxMultiplier: 150 },
+  { id: "ceftazidime-meningitis", name: "Ceftazidime (Fortum) injection meningitis", category: "Injections/Infusions", concentration: "500mg, 1g", dose: "200mg/kg/day, 8 hourly. Max 6g/day", frequency: "8 hourly", unit: "mg/day", multiplier: 200 },
+  // Ceftriaxone (Samixone)
+  { id: "ceftriaxone-mild", name: "Ceftriaxone injection mild/moderate", category: "Injections/Infusions", concentration: "500mg, 1g", dose: "50 - 75mg/kg/day. OD or BD. Max 2g/day", frequency: "OD or BD", unit: "mg/day", minMultiplier: 50, maxMultiplier: 75 },
+  { id: "ceftriaxone-severe", name: "Ceftriaxone injection septic dose (severe)", category: "Injections/Infusions", concentration: "500mg, 1g", dose: "80 - 100mg/kg/day", frequency: "OD or BD", unit: "mg/day", minMultiplier: 80, maxMultiplier: 100 },
+  { id: "ceftriaxone-meningitis", name: "Ceftriaxone injection meningitis", category: "Injections/Infusions", concentration: "500mg, 1g", dose: "100mg/kg/day. Max 4g/day", frequency: "OD or BD", unit: "mg/day", multiplier: 100 },
+  // Cefuroxime (Maxil)
+  { id: "cefuroxime-mild", name: "Cefuroxime injection mild/moderate", category: "Injections/Infusions", concentration: "750mg", dose: "75 - 100mg/kg/day, TDS", frequency: "TDS", unit: "mg/day", minMultiplier: 75, maxMultiplier: 100 },
+  { id: "cefuroxime-severe", name: "Cefuroxime injection severe infection", category: "Injections/Infusions", concentration: "750mg", dose: "100 - 200mg/kg/day, 6 - 8 hourly. Max 3g/day iv", frequency: "6 - 8 hourly", unit: "mg/day", minMultiplier: 100, maxMultiplier: 200 },
+  // Dexamethasone
+  { id: "dexamethasone-croup", name: "Dexamethasone croup", category: "Injections/Infusions", concentration: "4mg/ml, 8mg/2ml", dose: "0.15 - 0.6mg/kg single dose. Max 10 - 12mg", frequency: "Single dose", unit: "mg", minMultiplier: 0.15, maxMultiplier: 0.6 },
+  { id: "dexamethasone-meningitis", name: "Dexamethasone meningitis", category: "Injections/Infusions", concentration: "4mg/ml, 8mg/2ml", dose: "0.15mg/kg/dose, 6 hourly (2 - 4 days). Max 16mg/day", frequency: "6 hourly for 2 - 4 days", unit: "mg", multiplier: 0.15 },
+  // Diazepam
+  { id: "diazepam-iv", name: "Diazepam IV acute seizures", category: "Injections/Infusions", concentration: "10mg/2ml", dose: "0.1 - 0.3mg/kg/dose", frequency: "IV", unit: "mg", minMultiplier: 0.1, maxMultiplier: 0.3 },
+  { id: "diazepam-rectal", name: "Diazepam rectal", category: "Injections/Infusions", concentration: "10mg/2ml", dose: "0.5mg/kg/dose", frequency: "Rectal", unit: "mg", multiplier: 0.5 },
+  // Dobutamine
+  { id: "dobutamine", name: "Dobutamine infusion", category: "Injections/Infusions", concentration: "250mg/20ml", dose: "5 - 20mcg/kg/minute. Max 30mcg/kg/min", frequency: "Continuous infusion in NS or D5%", unit: "mcg/min", minMultiplier: 5, maxMultiplier: 20 },
+  // Dopamine
+  { id: "dopamine-cardiac", name: "Dopamine infusion cardiac dose", category: "Injections/Infusions", concentration: "200mg/5ml, 400mg/5ml", dose: "3 - 10mcg/kg/min (increases contractility & cardiac output)", frequency: "Continuous infusion in NS or D5%", unit: "mcg/min", minMultiplier: 3, maxMultiplier: 10 },
+  { id: "dopamine-vasopressor", name: "Dopamine infusion vasopressor dose", category: "Injections/Infusions", concentration: "200mg/5ml, 400mg/5ml", dose: "10 - 20mcg/kg/min (vasoconstriction & increase BP). Max 20mcg/kg/min", frequency: "Continuous infusion in NS or D5%", unit: "mcg/min", minMultiplier: 10, maxMultiplier: 20 },
+  // Gentamicin
+  { id: "gentamicin-normal", name: "Gentamicin injection normal patient", category: "Injections/Infusions", concentration: "10mg/ml, 40mg/ml", dose: "5 - 7.5mg/kg/day, OD or 8 hourly", frequency: "OD or 8 hourly", unit: "mg/day", minMultiplier: 5, maxMultiplier: 7.5 },
+  { id: "gentamicin-malnutrition", name: "Gentamicin injection malnutrition", category: "Injections/Infusions", concentration: "10mg/ml, 40mg/ml", dose: "7.5mg/kg/day, OD", frequency: "OD", unit: "mg/day", multiplier: 7.5 },
+  // Glucose
+  { id: "glucose-bolus", name: "Glucose D10% bolus (all pediatrics & neonate)", category: "Injections/Infusions", dose: "2ml/kg of D10%", frequency: "Now", unit: "ml", multiplier: 2 },
+  { id: "glucose-malnutrition-iv", name: "Glucose D10% malnutrition unconscious", category: "Injections/Infusions", dose: "5ml/kg D10% iv bolus", frequency: "Now", unit: "ml", multiplier: 5 },
+  // Hydralazine
+  { id: "hydralazine-crisis", name: "Hydralazine hydrochloride hypertensive crisis", category: "Injections/Infusions", concentration: "20mg/ml", dose: "0.1 - 0.5mg/kg (100 - 500mcg/kg) slowly IV, 4 hourly", frequency: "4 hourly or infusion if required", unit: "mg", minMultiplier: 0.1, maxMultiplier: 0.5 },
+  // Hydrocortisone
+  { id: "hydrocortisone-asthma", name: "Hydrocortisone status asthmaticus", category: "Injections/Infusions", concentration: "100mg", dose: "4mg/kg/day, 6 hourly. Max 100mg/dose", frequency: "6 hourly", unit: "mg/day", multiplier: 4 },
+  { id: "hydrocortisone-antiinflam", name: "Hydrocortisone anti-inflammatory", category: "Injections/Infusions", concentration: "100mg", dose: "1 - 5mg/kg/day, OD or BD", frequency: "OD or BD", unit: "mg/day", minMultiplier: 1, maxMultiplier: 5 },
+  // Hyoscine butylbromide
+  { id: "hyoscine-inj", name: "Hyoscine butylbromide IV", category: "Injections/Infusions", concentration: "20mg/ml", dose: "0.3 - 0.6mg/kg/dose. Max 20mg/kg/dose", frequency: "IV or oral", unit: "mg", minMultiplier: 0.3, maxMultiplier: 0.6 },
+  // Magnesium sulfate
+  { id: "magnesium-sulfate", name: "Magnesium sulfate asthma 2yrs - 17yrs", category: "Injections/Infusions", concentration: "50% solution=500mg/ml, 20% solution=200mg/ml", dose: "40 - 50mg/kg/dose, infusion over 20 - 30 minutes. Max 2g", frequency: "Over 20 - 30 minutes", unit: "mg", minMultiplier: 40, maxMultiplier: 50 },
+  // Mannitol
+  { id: "mannitol", name: "Mannitol raised ICP / cerebral edema", category: "Injections/Infusions", concentration: "20%=200mg/ml, 10%=100mg/ml", dose: "0.25 - 1g/kg/dose, over 30 - 60 minutes", frequency: "Over 30 - 60 min, repeat every 4 - 8 hourly if needed", unit: "g", minMultiplier: 0.25, maxMultiplier: 1 },
+  // Meropenem
+  { id: "meropenem-mild", name: "Meropenem IV mild/moderate", category: "Injections/Infusions", concentration: "500mg, 1g", dose: "20mg/kg/dose, 8 hourly. Max 1g/dose", frequency: "8 hourly", unit: "mg", multiplier: 20 },
+  { id: "meropenem-meningitis", name: "Meropenem IV meningitis/severe/cystic fibrosis", category: "Injections/Infusions", concentration: "500mg, 1g", dose: "40mg/kg/dose, 8 hourly. Max 2g/dose", frequency: "8 hourly", unit: "mg", multiplier: 40 },
+  // Metoclopramide injection
+  { id: "metoclopramide-inj", name: "Metoclopramide injection", category: "Injections/Infusions", concentration: "10mg/2ml", dose: "0.1 - 0.15mg/kg/dose, TDS. Max 10mg/dose", frequency: "TDS", unit: "mg", minMultiplier: 0.1, maxMultiplier: 0.15 },
+  // Metronidazole IV
+  { id: "metronidazole-iv-anaerobic", name: "Metronidazole IV anaerobic infection", category: "Injections/Infusions", concentration: "500mg/100ml", dose: "22.5 - 40mg/kg/day, 6 - 8 hourly. Max 4g/day", frequency: "6 - 8 hourly", unit: "mg/day", minMultiplier: 22.5, maxMultiplier: 40 },
+  // Methylprednisolone
+  { id: "methylprednisolone", name: "Methylprednisolone pulse therapy", category: "Injections/Infusions", concentration: "40mg, 125mg, 500mg, 1g vials", dose: "10 - 30mg/kg/day once for 3 - 5 days. Max 1g/day", frequency: "Once daily for 3 - 5 days", unit: "mg/day", minMultiplier: 10, maxMultiplier: 30 },
+  // Midazolam
+  { id: "midazolam-loading", name: "Midazolam IV loading status epilepticus", category: "Injections/Infusions", concentration: "1mg/ml, 5mg/ml", dose: "0.2mg/kg loading, followed by 0.05 - 0.1mg/kg/min slow IV", frequency: "Now (preferred in 2 months & older)", unit: "mg", multiplier: 0.2 },
+  // Morphine
+  { id: "morphine-cyanotic", name: "Morphine cyanotic spells", category: "Injections/Infusions", dose: "0.05mg/kg/dose, 8 hourly", frequency: "8 hourly", unit: "mg", multiplier: 0.05 },
+  { id: "morphine-sickle-start", name: "Morphine sickle cell starting dose", category: "Injections/Infusions", dose: "0.1 - 0.15mg/kg/dose, 4 hourly slowly IV", frequency: "4 hourly", unit: "mg", minMultiplier: 0.1, maxMultiplier: 0.15 },
+  { id: "morphine-sickle-maint", name: "Morphine sickle cell maintenance", category: "Injections/Infusions", dose: "0.04 - 0.07mg/kg/hour", frequency: "Continuous infusion", unit: "mg/hr", minMultiplier: 0.04, maxMultiplier: 0.07 },
+  // Pethidine
+  { id: "pethidine", name: "Pethidine hydrochloride injection", category: "Injections/Infusions", concentration: "50mg/ml, 100mg/ml", dose: "0.5 - 1mg/kg/dose, 4 - 6 hourly if needed. Max 100mg/dose", frequency: "4 - 6 hourly if needed", unit: "mg", minMultiplier: 0.5, maxMultiplier: 1 },
+  // Phenobarbital loading
+  { id: "phenobarb-load-inj", name: "Phenobarbital loading dose", category: "Injections/Infusions", dose: "15 - 20mg/kg", frequency: "Loading dose", unit: "mg", minMultiplier: 15, maxMultiplier: 20 },
+  // Phenytoin
+  { id: "phenytoin-load-inj", name: "Phenytoin injection loading dose", category: "Injections/Infusions", concentration: "50mg/ml", dose: "15 - 20mg/kg. Max 1500mg/day", frequency: "Now, slow IV", unit: "mg", minMultiplier: 15, maxMultiplier: 20 },
+  { id: "phenytoin-maint-inj", name: "Phenytoin injection maintenance", category: "Injections/Infusions", concentration: "50mg/ml", dose: "4 - 8mg/kg/day, BD", frequency: "BD", unit: "mg/day", minMultiplier: 4, maxMultiplier: 8 },
+  // Quinine
+  { id: "quinine-load", name: "Quinine injection loading dose", category: "Injections/Infusions", concentration: "600mg/2ml", dose: "20mg/kg over 4 hours, diluted in D5%", frequency: "Loading, over 4 hours", unit: "mg", multiplier: 20 },
+  { id: "quinine-maint", name: "Quinine injection maintenance", category: "Injections/Infusions", concentration: "600mg/2ml", dose: "10mg/kg, 8 hourly", frequency: "8 hourly (any more than 6 doses reduce to 7mg/kg/dose)", unit: "mg", multiplier: 10 },
+  // Ranitidine injection
+  { id: "ranitidine-inj", name: "Ranitidine injectable", category: "Injections/Infusions", concentration: "25mg/ml", dose: "1mg/kg/dose, 6 - 8 hourly", frequency: "6 - 8 hourly", unit: "mg", multiplier: 1 },
+  // Sodium nitroprusside
+  { id: "sodium-nitroprusside", name: "Sodium nitroprusside HTN emergency", category: "Injections/Infusions", concentration: "50mg diluted in D5%, protected from light", dose: "0.3 - 0.5mcg/kg/minute up to 0.5 - 5mcg/kg/minute. Max 8mcg/kg/min", frequency: "Continuous infusion", unit: "mcg/min", minMultiplier: 0.3, maxMultiplier: 5 },
+  // Vancomycin
+  { id: "vancomycin", name: "Vancomycin IV", category: "Injections/Infusions", concentration: "500mg, 1g", dose: "40 - 60mg/kg/day, 6 - 8 hourly (we give 45mg/kg/day)", frequency: "6 - 8 hourly", unit: "mg/day", minMultiplier: 40, maxMultiplier: 60 },
+  // Vitamin K injection
+  { id: "vit-k-proph", name: "Vitamin K prophylaxis IM", category: "Injections/Infusions", dose: "1mg IM once. (wt less than 2500g: 400mcg/kg)", frequency: "Once", fixed: "1 mg IM (or 400 mcg/kg if <2500g)" },
+  { id: "vit-k-therapeutic", name: "Vitamin K therapeutic injection", category: "Injections/Infusions", dose: "0.1 - 2mg/kg/day. Max 10mg/day", frequency: "IV", unit: "mg/day", minMultiplier: 0.1, maxMultiplier: 2 },
+
+  // ── SYRUPS / SUSPENSIONS ────────────────────────────────────────────────────
+  // Paracetamol (Panadol)
+  { id: "paracetamol-syrup-120", name: "Paracetamol syrup 120mg/5ml", category: "Syrups/Suspensions", concentration: "120mg/5ml", dose: "10 - 15mg/kg/dose, 4 - 6 hourly. Max 60mg/kg/day", frequency: "4 - 6 hourly", unit: "mg", minMultiplier: 10, maxMultiplier: 15 },
+  { id: "paracetamol-syrup-250", name: "Paracetamol syrup 250mg/5ml", category: "Syrups/Suspensions", concentration: "250mg/5ml", dose: "10 - 15mg/kg/dose, 4 - 6 hourly. Max 60mg/kg/day", frequency: "4 - 6 hourly", unit: "mg", minMultiplier: 10, maxMultiplier: 15 },
+  // Ibuprofen syrup
+  { id: "ibuprofen-syrup", name: "Ibuprofen syrup analgesic/antipyretic", category: "Syrups/Suspensions", concentration: "100mg/5ml", dose: "5 - 10mg/kg/dose, 6 - 8 hourly. Max lesser of 40mg/kg/day", frequency: "6 - 8 hourly. Preferred in 6 months & above only", unit: "mg", minMultiplier: 5, maxMultiplier: 10 },
+  // Mefenamic acid
+  { id: "mefenamic-syrup", name: "Mefenamic acid syrup", category: "Syrups/Suspensions", concentration: "50mg/5ml", dose: "5 - 10mg/kg/dose, 6 - 8 hourly. Max 1500mg/day", frequency: "6 - 8 hourly", unit: "mg", minMultiplier: 5, maxMultiplier: 10 },
+  // Amoxicillin syrup
+  { id: "amoxicillin-syrup-125-regular", name: "Amoxicillin syrup 125mg/5ml regular dose", category: "Syrups/Suspensions", concentration: "125mg/5ml", dose: "25 - 50mg/kg/day, BD or TDS", frequency: "BD or TDS", unit: "mg/day", minMultiplier: 25, maxMultiplier: 50 },
+  { id: "amoxicillin-syrup-250-regular", name: "Amoxicillin syrup 250mg/5ml regular dose", category: "Syrups/Suspensions", concentration: "250mg/5ml", dose: "25 - 50mg/kg/day, BD or TDS", frequency: "BD or TDS", unit: "mg/day", minMultiplier: 25, maxMultiplier: 50 },
+  { id: "amoxicillin-syrup-tonsil", name: "Amoxicillin syrup tonsillitis/pharyngitis 5 - 15yrs", category: "Syrups/Suspensions", concentration: "250mg/5ml", dose: "40mg/kg/day, BD, for 10 days", frequency: "BD for 10 days", unit: "mg/day", multiplier: 40 },
+  { id: "amoxicillin-syrup-severe", name: "Amoxicillin syrup severe infection", category: "Syrups/Suspensions", concentration: "250mg/5ml", dose: "80 - 100mg/kg/day, BD", frequency: "BD", unit: "mg/day", minMultiplier: 80, maxMultiplier: 100 },
+  // Azithromycin suspension
+  { id: "azithromycin-susp-pharyngitis", name: "Azithromycin suspension pharyngitis & tonsillitis", category: "Syrups/Suspensions", dose: "12mg/kg/day, OD for 5 days", frequency: "OD for 5 days", unit: "mg/day", multiplier: 12 },
+  { id: "azithromycin-susp-under6mo", name: "Azithromycin suspension less than 6 months (whooping cough/CAP)", category: "Syrups/Suspensions", dose: "10mg/kg/day, OD for 5 days", frequency: "OD for 5 days", unit: "mg/day", multiplier: 10 },
+  { id: "azithromycin-susp-over6mo", name: "Azithromycin suspension over 6 months (whooping cough/CAP)", category: "Syrups/Suspensions", dose: "10mg/kg/day OD on day 1, then 5mg/kg/day on 4 subsequent days", frequency: "OD", unit: "mg/day", multiplier: 10, notes: "Day 1: 10mg/kg OD, then 5mg/kg OD for 4 subsequent days" },
+  // Cefaclor
+  { id: "cefaclor-syrup", name: "Cefaclor syrup 125mg/5ml 2nd gen cephalosporin", category: "Syrups/Suspensions", concentration: "125mg/5ml, 250mg/ml", dose: "20 - 40mg/kg/day, 8 hourly. Max 1g/day", frequency: "8 hourly", unit: "mg/day", minMultiplier: 20, maxMultiplier: 40 },
+  // Cefadroxil
+  { id: "cefadroxil-syrup", name: "Cefadroxil syrup 1st gen cephalosporin", category: "Syrups/Suspensions", concentration: "125mg/5ml, 250mg/5ml", dose: "30 - 50mg/kg/day, OD or BD", frequency: "OD or BD", unit: "mg/day", minMultiplier: 30, maxMultiplier: 50 },
+  // Cefalexin
+  { id: "cefalexin-syrup-regular", name: "Cefalexin syrup regular 1st gen cephalosporin", category: "Syrups/Suspensions", concentration: "125mg/5ml, 250mg/ml", dose: "25 - 50mg/kg/day, BD or 6 hourly", frequency: "BD or 6 hourly", unit: "mg/day", minMultiplier: 25, maxMultiplier: 50 },
+  { id: "cefalexin-syrup-severe", name: "Cefalexin syrup severe infection", category: "Syrups/Suspensions", concentration: "125mg/5ml, 250mg/ml", dose: "50 - 100mg/kg/day, TDS or 6 hourly. Max 4g/day", frequency: "TDS or 6 hourly", unit: "mg/day", minMultiplier: 50, maxMultiplier: 100 },
+  // Cefixime
+  { id: "cefixime-syrup", name: "Cefixime syrup 100mg/5ml 3rd gen cephalosporin", category: "Syrups/Suspensions", concentration: "100mg/5ml (0.4ml/kg/day)", dose: "8mg/kg/day, OD or BD. Max 400mg/day", frequency: "OD or BD", unit: "mg/day", multiplier: 8 },
+  // Ciprofloxacin syrup
+  { id: "ciprofloxacin-syrup", name: "Ciprofloxacin syrup", category: "Syrups/Suspensions", concentration: "250mg/5ml", dose: "20 - 30mg/kg/day, BD or TDS. Max 400mg/dose", frequency: "BD or TDS", unit: "mg/day", minMultiplier: 20, maxMultiplier: 30 },
+  // Clarithromycin syrup
+  { id: "clarithromycin-syrup", name: "Clarithromycin syrup", category: "Syrups/Suspensions", concentration: "125mg/5ml, 250mg/5ml", dose: "15mg/kg/day, BD. Max 1g/day", frequency: "BD", unit: "mg/day", multiplier: 15 },
+  // Co-amoxiclav (Amocaln)
+  { id: "coamoxiclav-syrup-regular", name: "Co-amoxiclav (Amocaln) syrup regular dose", category: "Syrups/Suspensions", concentration: "156mg/5ml, 200mg/ml, 400mg/5ml", dose: "25 - 45mg/kg/day, BD", frequency: "BD", unit: "mg/day", minMultiplier: 25, maxMultiplier: 45 },
+  { id: "coamoxiclav-syrup-severe", name: "Co-amoxiclav (Amocaln) syrup severe (CAP, orbital cellulitis, AOM)", category: "Syrups/Suspensions", concentration: "156mg/5ml, 200mg/ml, 400mg/5ml", dose: "80 - 90mg/kg/day, BD or TDS", frequency: "BD or TDS", unit: "mg/day", minMultiplier: 80, maxMultiplier: 90 },
+  // Co-trimoxazole syrup (Septrin)
+  { id: "cotrimoxazole-syrup-mild", name: "Co-trimoxazole (Septrin) syrup mild/moderate", category: "Syrups/Suspensions", dose: "8mg/kg/day, BD", frequency: "BD", unit: "mg/day", multiplier: 8 },
+  { id: "cotrimoxazole-syrup-immuno", name: "Co-trimoxazole (Septrin) syrup immunocompromised", category: "Syrups/Suspensions", dose: "15 - 20mg/kg/day, 6 hourly or TDS. Max 320mg/day", frequency: "6 hourly or TDS", unit: "mg/day", minMultiplier: 15, maxMultiplier: 20 },
+  // Domperidone
+  { id: "domperidone-syrup", name: "Domperidone syrup", category: "Syrups/Suspensions", concentration: "5mg/5ml", dose: "0.2 - 0.4mg/kg/dose, TDS (before meals)", frequency: "TDS before meals", unit: "mg", minMultiplier: 0.2, maxMultiplier: 0.4 },
+  // Erythromycin syrup
+  { id: "erythromycin-syrup-whooping", name: "Erythromycin syrup whooping cough", category: "Syrups/Suspensions", concentration: "125mg/5ml, 250mg/5ml", dose: "40 - 50mg/kg/day, 6 hourly, for 14 days", frequency: "6 hourly for 14 days", unit: "mg/day", minMultiplier: 40, maxMultiplier: 50 },
+  { id: "erythromycin-syrup-chlamydia", name: "Erythromycin syrup chlamydial conjunctivitis/pneumonia", category: "Syrups/Suspensions", concentration: "125mg/5ml, 250mg/5ml", dose: "50mg/kg/day, 6 hourly, for 14 days. Max 2g/day", frequency: "6 hourly for 14 days", unit: "mg/day", multiplier: 50 },
+  // Ferrous sulfate (Saferon)
+  { id: "ferrous-sulfate-proph", name: "Ferrous sulfate (Saferon) syrup prophylaxis", category: "Syrups/Suspensions", concentration: "50mg/5ml", dose: "1 - 2mg/kg/day, OD or BD or TDS", frequency: "OD or BD or TDS", unit: "mg/day", minMultiplier: 1, maxMultiplier: 2 },
+  { id: "ferrous-sulfate-therapy", name: "Ferrous sulfate (Saferon) syrup therapeutic", category: "Syrups/Suspensions", concentration: "50mg/5ml", dose: "3 - 6mg/kg/day. Max 150 - 200mg/day", frequency: "OD or BD or TDS", unit: "mg/day", minMultiplier: 3, maxMultiplier: 6 },
+  { id: "hematin-syrup", name: "Ferrous sulfate with Folic acid (Hematin) syrup", category: "Syrups/Suspensions", concentration: "30mg/5ml", dose: "Same dose as Ferrous sulfate: 1 - 6mg/kg/day", frequency: "OD or BD or TDS", unit: "mg/day", minMultiplier: 1, maxMultiplier: 6 },
+  // Fluconazole syrup
+  { id: "fluconazole-mucosal", name: "Fluconazole syrup mucocutaneous candidiasis", category: "Syrups/Suspensions", concentration: "50mg/5ml, 200mg/5ml", dose: "Day 1: 6mg/kg OD, then 3mg/kg OD", frequency: "OD", unit: "mg", multiplier: 6, notes: "Day 1: 6mg/kg OD, then 3mg/kg OD from day 2" },
+  { id: "fluconazole-systemic", name: "Fluconazole syrup systemic/invasive", category: "Syrups/Suspensions", concentration: "50mg/5ml, 200mg/5ml", dose: "6 - 12mg/kg OD. Max 400 - 800mg/day", frequency: "OD", unit: "mg/day", minMultiplier: 6, maxMultiplier: 12 },
+  // Furosemide (Lasix) syrup
+  { id: "furosemide-oral", name: "Furosemide (Lasix) oral", category: "Syrups/Suspensions", concentration: "20mg, 40mg tabs, 20mg/2ml inj", dose: "0.5 - 1mg/kg/dose, OD, BD, TDS or 6 hourly. Max 3mg/kg/day", frequency: "OD, BD, TDS or 6 hourly", unit: "mg", minMultiplier: 0.5, maxMultiplier: 1 },
+  // Lactulose
+  { id: "lactulose-constipation", name: "Lactulose syrup constipation", category: "Syrups/Suspensions", concentration: "10g/15ml", dose: "1 - 3ml/kg/day, OD or BD", frequency: "OD or BD", unit: "ml/day", minMultiplier: 1, maxMultiplier: 3 },
+  { id: "lactulose-hepatic", name: "Lactulose syrup hepatic encephalopathy", category: "Syrups/Suspensions", concentration: "10g/15ml", dose: "1 - 2ml/kg/dose, 6 - 8 hourly", frequency: "6 - 8 hourly", unit: "ml", minMultiplier: 1, maxMultiplier: 2 },
+  // Metoclopramide syrup
+  { id: "metoclopramide-syrup", name: "Metoclopramide syrup", category: "Syrups/Suspensions", concentration: "5mg/5ml", dose: "0.1 - 0.15mg/kg/dose, TDS. Max 10mg/dose", frequency: "TDS", unit: "mg", minMultiplier: 0.1, maxMultiplier: 0.15 },
+  // Metronidazole syrup (Flagyl)
+  { id: "metronidazole-syrup-giardia", name: "Metronidazole (Flagyl) syrup giardiasis", category: "Syrups/Suspensions", concentration: "200mg/5ml", dose: "15 - 30mg/kg/day, TDS, for 5 - 7 days. Max 750mg/day", frequency: "TDS for 5 - 7 days", unit: "mg/day", minMultiplier: 15, maxMultiplier: 30 },
+  { id: "metronidazole-syrup-hpylori", name: "Metronidazole (Flagyl) syrup H. pylori", category: "Syrups/Suspensions", concentration: "200mg/5ml", dose: "20mg/kg/day, BD, for 14 days. Max 1g/day", frequency: "BD for 14 days", unit: "mg/day", multiplier: 20 },
+  { id: "metronidazole-syrup-amoeba", name: "Metronidazole (Flagyl) syrup amoebiasis", category: "Syrups/Suspensions", concentration: "200mg/5ml", dose: "35 - 50mg/kg/day, TDS, for 10 days. Max 750mg/dose", frequency: "TDS for 10 days", unit: "mg/day", minMultiplier: 35, maxMultiplier: 50 },
+  { id: "metronidazole-syrup-anaerobic", name: "Metronidazole (Flagyl) syrup anaerobic infection oral", category: "Syrups/Suspensions", concentration: "200mg/5ml", dose: "30 - 50mg/kg/day, 8 hourly. Max 2250mg/day", frequency: "8 hourly", unit: "mg/day", minMultiplier: 30, maxMultiplier: 50 },
+  { id: "metronidazole-syrup-malnutrition", name: "Metronidazole (Flagyl) syrup malnutrition", category: "Syrups/Suspensions", concentration: "200mg/5ml", dose: "7.5mg/kg/dose, TDS. Max 400 - 500mg", frequency: "TDS", unit: "mg", multiplier: 7.5 },
+  // Nystatin
+  { id: "nystatin-syrup", name: "Nystatin oral suspension", category: "Syrups/Suspensions", concentration: "100,000 u/ml", dose: "100,000 units (1ml), 6 hourly", frequency: "6 hourly", fixed: "1 ml (100,000 units)" },
+  // Omeprazole syrup
+  { id: "omeprazole-syrup", name: "Omeprazole syrup", category: "Syrups/Suspensions", concentration: "2mg/ml", dose: "0.5 - 1mg/kg/day, OD or BD", frequency: "OD or BD", unit: "mg/day", minMultiplier: 0.5, maxMultiplier: 1, notes: "Less than 10kg: 5-10mg OD; 10-20kg: 10mg OD; More than 20kg: 20mg OD. Max 40mg/day" },
+  // Ondansetron syrup
+  { id: "ondansetron-syrup", name: "Ondansetron syrup", category: "Syrups/Suspensions", concentration: "4mg/5ml", dose: "0.1 - 0.15mg/kg/dose, 8 - 12 hourly. Max 4mg young children, 8mg older", frequency: "8 - 12 hourly. Contraindicated less than 6 months", unit: "mg", minMultiplier: 0.1, maxMultiplier: 0.15 },
+  // Ranitidine
+  { id: "ranitidine-oral", name: "Ranitidine oral", category: "Syrups/Suspensions", concentration: "75mg/5ml, tabs 150mg, 300mg", dose: "2 - 4mg/kg/dose, BD. Max 300mg/day", frequency: "BD", unit: "mg", minMultiplier: 2, maxMultiplier: 4 },
+  // Salbutamol nebulization
+  { id: "salbutamol-neb-under5", name: "Salbutamol nebulization less than 5yrs", category: "Syrups/Suspensions", concentration: "2.5mg/2.5ml, 5mg/2.5ml", dose: "2.5mg/dose", frequency: "As directed", fixed: "2.5 mg/dose" },
+  { id: "salbutamol-neb-5to11", name: "Salbutamol nebulization 5yrs - 11yrs", category: "Syrups/Suspensions", concentration: "2.5mg/2.5ml, 5mg/2.5ml", dose: "2.5 - 5mg/dose", frequency: "As directed", fixed: "2.5 - 5 mg/dose" },
+  { id: "salbutamol-neb-over12", name: "Salbutamol nebulization 12yrs & more", category: "Syrups/Suspensions", concentration: "2.5mg/2.5ml, 5mg/2.5ml", dose: "5mg", frequency: "As directed", fixed: "5 mg/dose" },
+  // Sodium valproate syrup
+  { id: "sodium-valproate-syrup-start", name: "Sodium valproate syrup epilepsy initial", category: "Syrups/Suspensions", concentration: "200mg/5ml, 250mg/5ml", dose: "10 - 15mg/kg/day", frequency: "Initially. Max 60mg/kg/day", unit: "mg/day", minMultiplier: 10, maxMultiplier: 15 },
+  { id: "sodium-valproate-syrup-maint", name: "Sodium valproate syrup maintenance", category: "Syrups/Suspensions", concentration: "200mg/5ml, 250mg/5ml", dose: "20 - 60mg/kg/day, BD", frequency: "BD", unit: "mg/day", minMultiplier: 20, maxMultiplier: 60 },
+
+  // ── TABLETS / CAPSULES ──────────────────────────────────────────────────────
+  // Aciclovir tabs
+  { id: "aciclovir-tabs", name: "Aciclovir tablets", category: "Tablets/Capsules", concentration: "200mg, 400mg", dose: "15 - 20mg/kg/dose, 5 times/day. Max 800mg", frequency: "5 times per day", unit: "mg", minMultiplier: 15, maxMultiplier: 20 },
+  // Albendazole
+  { id: "albendazole-under2", name: "Albendazole tablets less than 2yrs", category: "Tablets/Capsules", concentration: "200mg, 400mg", dose: "200mg single dose", frequency: "Single dose (can be repeated 2 - 3 wks later)", fixed: "200 mg single dose" },
+  { id: "albendazole-over2", name: "Albendazole tablets 2yrs or more", category: "Tablets/Capsules", concentration: "200mg, 400mg", dose: "400mg single dose", frequency: "Single dose (can be repeated 2 - 3 wks later)", fixed: "400 mg single dose" },
+  // Amlodipine
+  { id: "amlodipine-under6", name: "Amlodipine tablets less than 6yrs", category: "Tablets/Capsules", concentration: "5mg, 10mg", dose: "0.1 - 0.3mg/kg once. Max 5mg/day", frequency: "Once daily", unit: "mg", minMultiplier: 0.1, maxMultiplier: 0.3 },
+  { id: "amlodipine-over6", name: "Amlodipine tablets 6yrs or more", category: "Tablets/Capsules", concentration: "5mg, 10mg", dose: "0.05 - 0.2mg/kg once. Max 10mg/day", frequency: "Once daily", unit: "mg", minMultiplier: 0.05, maxMultiplier: 0.2 },
+  // Amoxicillin capsules
+  { id: "amoxicillin-caps-regular", name: "Amoxicillin capsules regular dose", category: "Tablets/Capsules", concentration: "250mg, 500mg", dose: "25 - 50mg/kg/day, BD or TDS", frequency: "BD or TDS", unit: "mg/day", minMultiplier: 25, maxMultiplier: 50 },
+  { id: "amoxicillin-caps-tonsil", name: "Amoxicillin capsules tonsillitis/pharyngitis 5 - 15yrs", category: "Tablets/Capsules", concentration: "250mg, 500mg", dose: "40mg/kg/day, BD, for 10 days", frequency: "BD for 10 days", unit: "mg/day", multiplier: 40 },
+  { id: "amoxicillin-caps-severe", name: "Amoxicillin capsules severe infection", category: "Tablets/Capsules", concentration: "250mg, 500mg", dose: "80 - 100mg/kg/day, BD", frequency: "BD", unit: "mg/day", minMultiplier: 80, maxMultiplier: 100 },
+  // Artemether with lumefantrine (Co-artem)
+  { id: "coartem-2to14kg", name: "Artemether/Lumefantrine (Co-artem) 2 - 14kg", category: "Tablets/Capsules", concentration: "20/120mg", dose: "1 tab per dose", frequency: "BD x 3 days", fixed: "1 tab (20/120mg) per dose" },
+  { id: "coartem-15to24kg", name: "Artemether/Lumefantrine (Co-artem) 15 - 24kg", category: "Tablets/Capsules", concentration: "20/120mg", dose: "2 tabs per dose", frequency: "BD x 3 days", fixed: "2 tabs (20/120mg) per dose" },
+  { id: "coartem-25to34kg", name: "Artemether/Lumefantrine (Co-artem) 25 - 34kg", category: "Tablets/Capsules", concentration: "20/120mg", dose: "3 tabs per dose", frequency: "BD x 3 days", fixed: "3 tabs (20/120mg) per dose" },
+  { id: "coartem-over35kg", name: "Artemether/Lumefantrine (Co-artem) 35kg and above", category: "Tablets/Capsules", concentration: "20/120mg or 80/480mg", dose: "4 tabs per dose (or 1 tab of 80/480mg)", frequency: "BD x 3 days", fixed: "4 tabs (20/120mg) per dose or 1 tab (80/480mg)" },
+  // Aspirin (salicylic acid)
+  { id: "aspirin-rheumatic", name: "Aspirin rheumatic fever anti-inflammatory", category: "Tablets/Capsules", concentration: "75mg, 80mg, 100mg, 300mg", dose: "60mg/kg/day (local protocol) for 2 wks then taper. No max dose", frequency: "6 hourly for 2 wks then taper", unit: "mg/day", multiplier: 60 },
+  { id: "aspirin-kawasaki", name: "Aspirin Kawasaki disease", category: "Tablets/Capsules", concentration: "75mg, 80mg, 100mg, 300mg", dose: "80 - 100mg/kg/day, 6 hourly, during febrile phase up to 14 days, then decrease to 3 - 5mg/kg/day", frequency: "6 hourly during febrile phase, then taper", unit: "mg/day", minMultiplier: 80, maxMultiplier: 100 },
+  { id: "aspirin-antiplatelet", name: "Aspirin anti-platelet", category: "Tablets/Capsules", concentration: "75mg, 80mg, 100mg", dose: "3 - 5mg/kg/day. Max 75 - 100mg/day", frequency: "Once daily", unit: "mg/day", minMultiplier: 3, maxMultiplier: 5 },
+  // Azithromycin tabs/caps
+  { id: "azithromycin-tabs-pharyngitis", name: "Azithromycin capsules pharyngitis & tonsillitis", category: "Tablets/Capsules", concentration: "250mg, 500mg", dose: "12mg/kg/day, OD for 5 days", frequency: "OD for 5 days", unit: "mg/day", multiplier: 12 },
+  { id: "azithromycin-tabs-cap", name: "Azithromycin capsules whooping cough/CAP over 6 months", category: "Tablets/Capsules", concentration: "250mg, 500mg", dose: "10mg/kg/day OD on day 1, then 5mg/kg/day on 4 subsequent days", frequency: "OD", unit: "mg/day", multiplier: 10, notes: "Day 1: 10mg/kg OD, then 5mg/kg OD for 4 subsequent days" },
+  // Baclofen
+  { id: "baclofen-start", name: "Baclofen tablets starting dose", category: "Tablets/Capsules", concentration: "5mg, 10mg, 25mg", dose: "0.3mg/kg/day, TDS or 6 hourly (increase every 3 days)", frequency: "TDS or 6 hourly", unit: "mg/day", multiplier: 0.3 },
+  { id: "baclofen-maint", name: "Baclofen tablets maintenance", category: "Tablets/Capsules", concentration: "5mg, 10mg, 25mg", dose: "0.75 - 2mg/kg/day. Max 40 - 60mg/day", frequency: "TDS or 6 hourly", unit: "mg/day", minMultiplier: 0.75, maxMultiplier: 2 },
+  // Calcium carbonate
+  { id: "calcium-carbonate", name: "Calcium carbonate", category: "Tablets/Capsules", dose: "45 - 65mg/kg/day, 6 hourly", frequency: "6 hourly", unit: "mg/day", minMultiplier: 45, maxMultiplier: 65 },
+  // Captopril
+  { id: "captopril-htn-start", name: "Captopril tablets hypertension starting dose", category: "Tablets/Capsules", concentration: "6.25mg, 12.5mg, 25mg, 50mg", dose: "0.3 - 0.5mg/kg/dose, TDS", frequency: "TDS", unit: "mg", minMultiplier: 0.3, maxMultiplier: 0.5 },
+  { id: "captopril-htn-maint", name: "Captopril tablets hypertension maintenance", category: "Tablets/Capsules", concentration: "6.25mg, 12.5mg, 25mg, 50mg", dose: "1 - 6mg/kg/day, BD or TDS. Max 6mg/kg/day", frequency: "BD or TDS", unit: "mg/day", minMultiplier: 1, maxMultiplier: 6 },
+  { id: "captopril-hf", name: "Captopril tablets heart failure", category: "Tablets/Capsules", concentration: "6.25mg, 12.5mg, 25mg, 50mg", dose: "0.1 - 0.3mg/kg/dose, BD or TDS. Max 4mg/kg/day", frequency: "BD or TDS", unit: "mg", minMultiplier: 0.1, maxMultiplier: 0.3 },
+  // Carbamazepine
+  { id: "carbamazepine-start", name: "Carbamazepine tablets starting dose", category: "Tablets/Capsules", concentration: "100mg, 200mg, 400mg, syrup 100mg/5ml", dose: "5mg/kg/day, BD (increase by 5mg/kg/day every 3 - 7 days)", frequency: "BD", unit: "mg/day", multiplier: 5 },
+  { id: "carbamazepine-maint", name: "Carbamazepine tablets maintenance", category: "Tablets/Capsules", concentration: "100mg, 200mg, 400mg, syrup 100mg/5ml", dose: "20 - 30mg/kg/day. Max 35mg/kg/day", frequency: "BD", unit: "mg/day", minMultiplier: 20, maxMultiplier: 30 },
+  // Cefaclor caps
+  { id: "cefaclor-caps", name: "Cefaclor capsules 2nd gen cephalosporin", category: "Tablets/Capsules", concentration: "250mg, 500mg", dose: "20 - 40mg/kg/day, 8 hourly. Max 1g/day", frequency: "8 hourly", unit: "mg/day", minMultiplier: 20, maxMultiplier: 40 },
+  // Cefadroxil caps
+  { id: "cefadroxil-caps", name: "Cefadroxil capsules 1st gen cephalosporin", category: "Tablets/Capsules", concentration: "250mg, 500mg", dose: "30 - 50mg/kg/day, OD or BD", frequency: "OD or BD", unit: "mg/day", minMultiplier: 30, maxMultiplier: 50 },
+  // Cefalexin caps
+  { id: "cefalexin-caps-regular", name: "Cefalexin capsules regular 1st gen cephalosporin", category: "Tablets/Capsules", concentration: "250mg, 500mg", dose: "25 - 50mg/kg/day, BD or 6 hourly", frequency: "BD or 6 hourly", unit: "mg/day", minMultiplier: 25, maxMultiplier: 50 },
+  { id: "cefalexin-caps-severe", name: "Cefalexin capsules severe infection", category: "Tablets/Capsules", concentration: "250mg, 500mg", dose: "50 - 100mg/kg/day, TDS or 6 hourly. Max 4g/day", frequency: "TDS or 6 hourly", unit: "mg/day", minMultiplier: 50, maxMultiplier: 100 },
+  // Cefixime caps
+  { id: "cefixime-caps", name: "Cefixime capsules 3rd gen cephalosporin", category: "Tablets/Capsules", concentration: "200mg, 400mg", dose: "8mg/kg/day, OD or BD. Max 400mg/day", frequency: "OD or BD", unit: "mg/day", multiplier: 8 },
+  // Cefpodoxime
+  { id: "cefpodoxime", name: "Cefpodoxime proxetil (Cefodox) 3rd gen cephalosporin", category: "Tablets/Capsules", dose: "10mg/kg/day, BD, for 5 - 10 days. Max 200mg/day (AOM/sinusitis Max 400mg/day)", frequency: "BD for 5 - 10 days", unit: "mg/day", multiplier: 10 },
+  // Cetirizine
+  { id: "cetirizine-6moto2yr", name: "Cetirizine 6 months - 2yrs (2nd gen antihistamine)", category: "Tablets/Capsules", concentration: "5mg/5ml syrup, 10mg tabs", dose: "2.5mg, OD", frequency: "OD", fixed: "2.5 mg OD" },
+  { id: "cetirizine-2to6yr", name: "Cetirizine 2yrs - 6yrs (2nd gen antihistamine)", category: "Tablets/Capsules", concentration: "5mg/5ml syrup, 10mg tabs", dose: "2.5mg, BD or OD. Max 5mg", frequency: "BD or OD", fixed: "2.5 mg BD or OD (Max 5mg)" },
+  { id: "cetirizine-6to12yr", name: "Cetirizine 6yrs - 12yrs (2nd gen antihistamine)", category: "Tablets/Capsules", concentration: "5mg/5ml syrup, 10mg tabs", dose: "10mg, divided BD or given OD", frequency: "BD or OD", fixed: "10 mg BD or OD" },
+  { id: "cetirizine-over12", name: "Cetirizine more than 12yrs (2nd gen antihistamine)", category: "Tablets/Capsules", concentration: "5mg/5ml syrup, 10mg tabs", dose: "10mg, OD", frequency: "OD", fixed: "10 mg OD" },
+  // Ciprofloxacin tabs
+  { id: "ciprofloxacin-tabs", name: "Ciprofloxacin tablets", category: "Tablets/Capsules", concentration: "250mg, 500mg", dose: "20 - 30mg/kg/day, BD or TDS. Max 400mg/dose", frequency: "BD or TDS", unit: "mg/day", minMultiplier: 20, maxMultiplier: 30 },
+  // Clarithromycin caps
+  { id: "clarithromycin-caps", name: "Clarithromycin capsules", category: "Tablets/Capsules", concentration: "250mg, 500mg", dose: "15mg/kg/day, BD. Max 1g/day", frequency: "BD", unit: "mg/day", multiplier: 15 },
+  // Clindamycin
+  { id: "clindamycin", name: "Clindamycin injection", category: "Injections/Infusions", concentration: "150mg/1ml ampoules", dose: "20 - 40mg/kg/day, 6 hourly or TDS. Max 2.7g/day", frequency: "6 hourly or TDS", unit: "mg/day", minMultiplier: 20, maxMultiplier: 40 },
+  // Co-amoxiclav tabs
+  { id: "coamoxiclav-tabs-regular", name: "Co-amoxiclav (Amocaln) tablets regular dose", category: "Tablets/Capsules", concentration: "375mg, 625mg, 1g", dose: "25 - 45mg/kg/day, BD", frequency: "BD", unit: "mg/day", minMultiplier: 25, maxMultiplier: 45 },
+  { id: "coamoxiclav-tabs-severe", name: "Co-amoxiclav (Amocaln) tablets severe (CAP, orbital cellulitis, AOM)", category: "Tablets/Capsules", concentration: "375mg, 625mg, 1g", dose: "80 - 90mg/kg/day, BD or TDS", frequency: "BD or TDS", unit: "mg/day", minMultiplier: 80, maxMultiplier: 90 },
+  // Co-trimoxazole tabs (Septrin)
+  { id: "cotrimoxazole-tabs-mild", name: "Co-trimoxazole (Septrin) mild/moderate", category: "Tablets/Capsules", dose: "8mg/kg/day, BD", frequency: "BD", unit: "mg/day", multiplier: 8 },
+  { id: "cotrimoxazole-tabs-immuno", name: "Co-trimoxazole (Septrin) immunocompromised", category: "Tablets/Capsules", dose: "15 - 20mg/kg/day, 6 hourly or TDS. Max 320mg/day", frequency: "6 hourly or TDS", unit: "mg/day", minMultiplier: 15, maxMultiplier: 20 },
+  // Diclofenac sodium suppositories
+  { id: "diclofenac-supp", name: "Diclofenac sodium suppositories", category: "Tablets/Capsules", concentration: "12.5mg, 25mg, 50mg, 100mg", dose: "1 - 3mg/kg/day, OD or BD", frequency: "OD or BD", unit: "mg/day", minMultiplier: 1, maxMultiplier: 3 },
+  // Doxycycline
+  { id: "doxycycline", name: "Doxycycline 8yrs and older", category: "Tablets/Capsules", concentration: "50mg, 100mg caps", dose: "2 - 4mg/kg/day, BD. Max 200mg/day", frequency: "BD. Contraindicated below 8yrs", unit: "mg/day", minMultiplier: 2, maxMultiplier: 4 },
+  // Esomeprazole
+  { id: "esomeprazole", name: "Esomeprazole capsules", category: "Tablets/Capsules", concentration: "20mg, 40mg caps, 40mg ampule", dose: "0.5 - 1mg/kg/day, OD", frequency: "OD", unit: "mg/day", minMultiplier: 0.5, maxMultiplier: 1 },
+  // Folic acid
+  { id: "folic-acid-infant", name: "Folic acid folate deficiency infant", category: "Tablets/Capsules", concentration: "0.5mg, 1mg, 5mg tabs, 0.2mg/ml drops", dose: "0.5mg/day, OD for 4 months", frequency: "OD for 4 months", fixed: "0.5 mg OD for 4 months" },
+  { id: "folic-acid-child", name: "Folic acid folate deficiency 1yr - 17yrs", category: "Tablets/Capsules", concentration: "0.5mg, 1mg, 5mg tabs", dose: "5mg, OD for 4 months", frequency: "OD for 4 months", fixed: "5 mg OD for 4 months" },
+  { id: "folic-acid-haemolytic", name: "Folic acid haemolytic anemia", category: "Tablets/Capsules", concentration: "0.5mg, 1mg, 5mg tabs", dose: "2.5 - 5mg, OD", frequency: "OD", fixed: "2.5 - 5 mg OD" },
+  // Furosemide (Lasix) tabs
+  { id: "furosemide-tabs", name: "Furosemide (Lasix) tablets", category: "Tablets/Capsules", concentration: "20mg, 40mg", dose: "0.5 - 1mg/kg/dose, OD, BD, TDS or 6 hourly. Max 3mg/kg/day", frequency: "OD, BD, TDS or 6 hourly", unit: "mg", minMultiplier: 0.5, maxMultiplier: 1 },
+  // Griseofulvin
+  { id: "griseofulvin", name: "Griseofulvin tablets", category: "Tablets/Capsules", dose: "12.5mg/kg/day. Max 500mg/day", frequency: "OD", unit: "mg/day", multiplier: 12.5 },
+  // Haloperidol
+  { id: "haloperidol", name: "Haloperidol tablets agitation", category: "Tablets/Capsules", concentration: "0.5mg, 1.5mg, 5mg tabs, 5mg/ml ampoules", dose: "0.01 - 0.02mg/kg/day, OD or BD. Max 5 - 10mg/day", frequency: "OD or BD", unit: "mg/day", minMultiplier: 0.01, maxMultiplier: 0.02 },
+  // Hepatitis B immunoglobulin
+  { id: "hbig-post-exposure", name: "Hepatitis B immunoglobulin post-exposure prophylaxis", category: "Injections/Infusions", concentration: "100iu/ml, 220iu/ml", dose: "0.06ml/kg IM", frequency: "IM", unit: "ml", multiplier: 0.06 },
+  // Hydralazine tabs
+  { id: "hydralazine-tabs", name: "Hydralazine tablets chronic HTN", category: "Tablets/Capsules", concentration: "25mg, 50mg, 100mg", dose: "0.5 - 1mg/kg/day, BD or 6 hourly. Max 6mg/kg/day", frequency: "BD or 6 hourly", unit: "mg/day", minMultiplier: 0.5, maxMultiplier: 1 },
+  // Hydrocortisone tabs
+  { id: "hydrocortisone-tabs", name: "Hydrocortisone tablets anti-inflammatory", category: "Tablets/Capsules", concentration: "10mg, 20mg", dose: "1 - 5mg/kg/day, OD or BD", frequency: "OD or BD", unit: "mg/day", minMultiplier: 1, maxMultiplier: 5 },
+  // Hyoscine tabs
+  { id: "hyoscine-tabs", name: "Hyoscine butylbromide tablets", category: "Tablets/Capsules", concentration: "10mg tabs", dose: "0.3 - 0.6mg/kg/dose. Max 20mg/kg/dose", frequency: "Oral", unit: "mg", minMultiplier: 0.3, maxMultiplier: 0.6 },
+  // Ibuprofen tabs
+  { id: "ibuprofen-tabs-analgesic", name: "Ibuprofen tablets analgesic/antipyretic", category: "Tablets/Capsules", concentration: "200mg, 400mg", dose: "5 - 10mg/kg/dose, 6 - 8 hourly. Max lesser of 40mg/kg/day", frequency: "6 - 8 hourly. Preferred in 6 months & above", unit: "mg", minMultiplier: 5, maxMultiplier: 10 },
+  { id: "ibuprofen-tabs-jra", name: "Ibuprofen tablets JRA 6months - 12yrs", category: "Tablets/Capsules", concentration: "200mg, 400mg", dose: "30 - 50mg/kg/day, 6 hourly. Max 800mg/dose or 2400mg/day", frequency: "6 hourly", unit: "mg/day", minMultiplier: 30, maxMultiplier: 50 },
+  // Imipenem
+  { id: "imipenem-4wkto3mo", name: "Imipenem injection 4wks - 3 months", category: "Injections/Infusions", dose: "100mg/kg/day, 6 hourly", frequency: "6 hourly", unit: "mg/day", multiplier: 100 },
+  { id: "imipenem-over3mo", name: "Imipenem injection more than 3 months", category: "Injections/Infusions", dose: "60 - 100mg/kg/day, 6 hourly. Max 4g/day", frequency: "6 hourly", unit: "mg/day", minMultiplier: 60, maxMultiplier: 100 },
+  // Ipratropium bromide nebulizer
+  { id: "ipratropium-under5", name: "Ipratropium bromide nebulizer less than 5yrs", category: "Drops", concentration: "250mcg, 500mcg nebulized solution", dose: "250mcg/dose, 3 doses then 6 hourly. Max 1mg/day", frequency: "3 doses then 6 hourly. Moderate/severe asthma", fixed: "250 mcg/dose" },
+  { id: "ipratropium-over5", name: "Ipratropium bromide nebulizer 5yrs & more", category: "Drops", concentration: "250mcg, 500mcg nebulized solution", dose: "500mcg/dose, 3 doses then 6 hourly. Max 2mg/day (GINA guideline)", frequency: "3 doses then 6 hourly", fixed: "500 mcg/dose" },
+  // Itraconazole
+  { id: "itraconazole-regular", name: "Itraconazole regular", category: "Tablets/Capsules", concentration: "10mg/ml oral, 100mg, 200mg caps", dose: "3 - 5mg/kg/day, OD or BD", frequency: "OD or BD", unit: "mg/day", minMultiplier: 3, maxMultiplier: 5 },
+  { id: "itraconazole-severe", name: "Itraconazole severe systemic", category: "Tablets/Capsules", concentration: "10mg/ml oral, 100mg, 200mg caps", dose: "10mg/kg/day. Max 200 - 400mg/day", frequency: "OD or BD", unit: "mg/day", multiplier: 10 },
+  // Ivermectin
+  { id: "ivermectin", name: "Ivermectin tablets scabies (15kg or more only)", category: "Tablets/Capsules", concentration: "3mg, 6mg, 12mg", dose: "200mcg/kg (0.2mg/kg) as a single dose, repeat after 7 - 14 days", frequency: "Single dose, repeat after 7 - 14 days", unit: "mg", multiplier: 0.2 },
+  // Ketotifen
+  { id: "ketotifen-6moto3yr", name: "Ketotifen 6 months - 3yrs", category: "Tablets/Capsules", concentration: "1mg/5ml syrup, 1mg tabs", dose: "0.5mg, BD. For children 6 months and older", frequency: "BD", fixed: "0.5 mg BD" },
+  { id: "ketotifen-over3yr", name: "Ketotifen 3yrs and more", category: "Tablets/Capsules", concentration: "1mg/5ml syrup, 1mg tabs", dose: "1mg, BD. Max 2mg BD", frequency: "BD", fixed: "1 mg BD (Max 2 mg BD)" },
+  // Labetalol
+  { id: "labetalol", name: "Labetalol hypertensive emergency", category: "Injections/Infusions", dose: "500mcg/kg/hour (0.5mg/kg/hr). Max 3mg/kg/hr", frequency: "Continuous infusion, dilute to 1mg/ml or 2mg/ml in D5% or D5%/NaCl 0.18%", unit: "mg/hr", multiplier: 0.5 },
+  // Lansoprazole
+  { id: "lansoprazole", name: "Lansoprazole capsules", category: "Tablets/Capsules", concentration: "15mg, 30mg", dose: "0.5 - 1mg/kg/day, OD", frequency: "OD", unit: "mg/day", minMultiplier: 0.5, maxMultiplier: 1 },
+  // Levetiracetam (Kepra)
+  { id: "levetiracetam-start-child", name: "Levetiracetam (Kepra) starting dose less than 12yrs (less than 50kg)", category: "Tablets/Capsules", concentration: "100mg/ml syrup, 250mg, 500mg, 750mg, 1g tabs", dose: "10 - 20mg/kg/day, OD or BD (increase by 10mg/kg/day every 3 - 7 days)", frequency: "OD or BD", unit: "mg/day", minMultiplier: 10, maxMultiplier: 20 },
+  { id: "levetiracetam-start-teen", name: "Levetiracetam (Kepra) starting dose 12yrs - 18yrs", category: "Tablets/Capsules", concentration: "250mg, 500mg, 750mg, 1g tabs", dose: "250mg, BD (increase by 500mg BD every 7 - 14 days)", frequency: "BD", fixed: "250 mg BD initially" },
+  { id: "levetiracetam-maint-under50", name: "Levetiracetam (Kepra) maintenance less than 50kg", category: "Tablets/Capsules", concentration: "100mg/ml syrup, 250mg, 500mg tabs", dose: "40mg/kg/day, BD. Max 3000mg/day", frequency: "BD", unit: "mg/day", multiplier: 40 },
+  // Levocetirizine
+  { id: "levocetirizine", name: "Levocetirizine hydrochloride (2nd gen antihistamine)", category: "Tablets/Capsules", concentration: "0.5mg/ml syrup, 5mg tabs", dose: "0.1mg/kg/day, once. Max 5mg/day", frequency: "Once daily", unit: "mg/day", multiplier: 0.1, notes: "6 months - 5yrs: 1.25mg OD; 6yrs - 11yrs: 2.5 - 5mg OD; 12yrs+: 5mg OD" },
+  // Levofloxacin
+  { id: "levofloxacin-young", name: "Levofloxacin 6months - 5yrs", category: "Tablets/Capsules", dose: "10mg/kg/dose, BD. Max 500mg/day", frequency: "BD", unit: "mg", multiplier: 10 },
+  { id: "levofloxacin-older", name: "Levofloxacin 5yrs or more", category: "Tablets/Capsules", dose: "10mg/kg/dose, OD. Max 750mg/day", frequency: "OD", unit: "mg", multiplier: 10 },
+  // Levothyroxine
+  { id: "levothyroxine-newborn", name: "Levothyroxine sodium newborns", category: "Tablets/Capsules", concentration: "25mg, 50mg, 75mg, 100mg, 125mg, 150mg tabs", dose: "10 - 15mcg/kg/day, OD. Max 50mcg/day", frequency: "OD", unit: "mcg/day", minMultiplier: 10, maxMultiplier: 15 },
+  { id: "levothyroxine-1moto1yr", name: "Levothyroxine sodium 1 month - 1yr", category: "Tablets/Capsules", concentration: "25mg, 50mg, 75mg, 100mg tabs", dose: "5mcg/kg/day. Max 50mcg/day", frequency: "OD", unit: "mcg/day", multiplier: 5 },
+  // Loratadine
+  { id: "loratadine", name: "Loratadine (2nd gen antihistamine)", category: "Tablets/Capsules", concentration: "5mg/5ml syrup, 10mg tabs", dose: "0.2mg/kg/day, once", frequency: "Once daily", unit: "mg/day", multiplier: 0.2, notes: "2 - 5yrs: 5mg OD; 6yrs+: 10mg OD" },
+  // Mebendazole
+  { id: "mebendazole-worm", name: "Mebendazole tablets ascaris/hookworm/whipworm", category: "Tablets/Capsules", concentration: "100mg tabs, 100mg/5ml syrup", dose: "100mg, BD for 3 days, then repeat after 2 - 4 wks", frequency: "BD for 3 days. Contraindicated less than 2yrs", fixed: "100 mg BD for 3 days" },
+  { id: "mebendazole-pinworm", name: "Mebendazole tablets enterobius (pinworm)", category: "Tablets/Capsules", concentration: "100mg tabs, 100mg/5ml syrup", dose: "100mg single dose, repeat after 2 wks", frequency: "Single dose, repeat after 2 wks. Contraindicated less than 2yrs", fixed: "100 mg single dose" },
+  // Mefenamic acid tabs
+  { id: "mefenamic-tabs", name: "Mefenamic acid tablets", category: "Tablets/Capsules", concentration: "250mg, 500mg", dose: "5 - 10mg/kg/dose, 6 - 8 hourly. Max 1500mg/day", frequency: "6 - 8 hourly", unit: "mg", minMultiplier: 5, maxMultiplier: 10 },
+  // Montelukast
+  { id: "montelukast-6moto5yr", name: "Montelukast asthma control 6 months - 5yrs", category: "Tablets/Capsules", concentration: "4mg granules sachet, 4mg chewable, 5mg chewable, 10mg tabs", dose: "4mg, OD", frequency: "OD", fixed: "4 mg OD" },
+  { id: "montelukast-6to14yr", name: "Montelukast asthma control 6yrs - 14yrs", category: "Tablets/Capsules", concentration: "5mg chewable, 10mg tabs", dose: "5mg, OD", frequency: "OD", fixed: "5 mg OD" },
+  { id: "montelukast-over15", name: "Montelukast asthma control 15yrs or more", category: "Tablets/Capsules", concentration: "10mg tabs", dose: "10mg, OD", frequency: "OD", fixed: "10 mg OD" },
+  // Mupirocin
+  { id: "mupirocin", name: "Mupirocin impetigo (2 months or more)", category: "Drops", dose: "Apply small amount, TDS, for 5 - 10 days", frequency: "TDS for 5 - 10 days", fixed: "Small amount TDS for 5-10 days" },
+  // Neomycin
+  { id: "neomycin", name: "Neomycin sulfate tablets hepatic encephalopathy", category: "Tablets/Capsules", concentration: "500mg tabs", dose: "50 - 100mg/kg/day, oral, 6 hourly. Max 4g/day", frequency: "6 hourly", unit: "mg/day", minMultiplier: 50, maxMultiplier: 100 },
+  // Nifedipine
+  { id: "nifedipine-acute", name: "Nifedipine (IR) acute HTN", category: "Tablets/Capsules", concentration: "10mg, 20mg IR tabs", dose: "0.25 - 5mg/kg/dose, 6 - 8 hourly", frequency: "6 - 8 hourly", unit: "mg", minMultiplier: 0.25, maxMultiplier: 5 },
+  { id: "nifedipine-chronic", name: "Nifedipine (SR) chronic HTN", category: "Tablets/Capsules", concentration: "30mg, 60mg SR tabs", dose: "0.5 - 3mg/kg/day, OD or BD", frequency: "OD or BD", unit: "mg/day", minMultiplier: 0.5, maxMultiplier: 3 },
+  // Nitrofurantoin
+  { id: "nitrofurantoin-proph", name: "Nitrofurantoin prophylaxis VUR", category: "Tablets/Capsules", concentration: "50mg, 100mg tabs, 25mg/5ml syrup", dose: "1 - 2mg/kg, OD at night", frequency: "OD at night", unit: "mg", minMultiplier: 1, maxMultiplier: 2 },
+  { id: "nitrofurantoin-uti", name: "Nitrofurantoin treatment UTI", category: "Tablets/Capsules", concentration: "50mg, 100mg tabs, 25mg/5ml syrup", dose: "5 - 7mg/kg/day, 6 - 12 hourly. Max 400mg/day", frequency: "6 - 12 hourly", unit: "mg/day", minMultiplier: 5, maxMultiplier: 7 },
+  // Omeprazole tabs
+  { id: "omeprazole-tabs", name: "Omeprazole tablets", category: "Tablets/Capsules", concentration: "10mg, 20mg, 40mg, 2mg/ml syrup, 40mg injection", dose: "0.5 - 1mg/kg/day, OD or BD", frequency: "OD or BD", unit: "mg/day", minMultiplier: 0.5, maxMultiplier: 1, notes: "Less than 10kg: 5-10mg OD; 10-20kg: 10mg OD; More than 20kg: 20mg OD. Max 40mg/day" },
+  // Ondansetron tabs
+  { id: "ondansetron-tabs", name: "Ondansetron tablets/injection", category: "Tablets/Capsules", concentration: "4mg, 8mg tabs, 2mg/ml injection", dose: "0.1 - 0.15mg/kg/dose, 8 - 12 hourly. Max 4mg young children, 8mg older", frequency: "8 - 12 hourly. Contraindicated less than 6 months", unit: "mg", minMultiplier: 0.1, maxMultiplier: 0.15 },
+  // Paracetamol tabs
+  { id: "paracetamol-tabs", name: "Paracetamol (Panadol) tablets", category: "Tablets/Capsules", concentration: "250mg, 500mg, 1g, suppositories 60mg, 125mg, 250mg, 500mg", dose: "10 - 15mg/kg/dose, 4 - 6 hourly. Max 60mg/kg/day", frequency: "4 - 6 hourly", unit: "mg", minMultiplier: 10, maxMultiplier: 15 },
+  // Pethidine tabs
+  { id: "pethidine-tabs", name: "Pethidine hydrochloride oral", category: "Tablets/Capsules", concentration: "50mg/ml, 100mg/ml injection", dose: "0.5 - 1mg/kg/dose, 4 - 6 hourly if needed. Max 100mg/dose", frequency: "4 - 6 hourly if needed", unit: "mg", minMultiplier: 0.5, maxMultiplier: 1 },
+  // Phenobarbital tabs
+  { id: "phenobarb-load-tabs", name: "Phenobarbital loading dose", category: "Tablets/Capsules", concentration: "15mg, 30mg, 60mg, 100mg tabs", dose: "15 - 20mg/kg", frequency: "Loading dose", unit: "mg", minMultiplier: 15, maxMultiplier: 20 },
+  { id: "phenobarb-maint-tabs", name: "Phenobarbital maintenance", category: "Tablets/Capsules", concentration: "15mg, 30mg, 60mg, 100mg tabs", dose: "2.5 - 5mg/kg/day (most of the time we use 5mg/kg/day), OD at night or BD", frequency: "OD at night or BD", unit: "mg/day", minMultiplier: 2.5, maxMultiplier: 5 },
+  // Phenytoin
+  { id: "phenytoin-load-tabs", name: "Phenytoin loading dose", category: "Tablets/Capsules", concentration: "50mg/ml injection", dose: "15 - 20mg/kg. Max 1500mg/day", frequency: "Now, slow IV", unit: "mg", minMultiplier: 15, maxMultiplier: 20 },
+  { id: "phenytoin-maint-tabs", name: "Phenytoin maintenance", category: "Tablets/Capsules", concentration: "50mg/ml injection", dose: "4 - 8mg/kg/day (most of the time we use 5mg/kg/day), BD", frequency: "BD", unit: "mg/day", minMultiplier: 4, maxMultiplier: 8 },
+  // Potassium chloride
+  { id: "kcl-oral", name: "Potassium chloride oral maintenance", category: "Tablets/Capsules", concentration: "KCl ampule 20mmol/10ml", dose: "0.5 - 1.5ml/kg/day (1 - 2 mmol/kg)", frequency: "Daily maintenance", unit: "ml/day", minMultiplier: 0.5, maxMultiplier: 1.5 },
+  { id: "kcl-iv", name: "Potassium chloride IV maintenance", category: "Injections/Infusions", concentration: "KCl ampule 20mmol/10ml", dose: "1ml/kg/day", frequency: "Daily IV maintenance", unit: "ml/day", multiplier: 1 },
+  // Praziquantel
+  { id: "praziquantel-schisto", name: "Praziquantel tablets schistosomiasis", category: "Tablets/Capsules", concentration: "150mg, 600mg", dose: "40 - 60mg/kg/day, 4 - 6 hourly for 1 day or single dose", frequency: "4 - 6 hourly for 1 day, or single dose", unit: "mg/day", minMultiplier: 40, maxMultiplier: 60 },
+  { id: "praziquantel-taenia", name: "Praziquantel tablets taeniasis", category: "Tablets/Capsules", concentration: "150mg, 600mg", dose: "5 - 19mg/kg single dose", frequency: "Single dose", unit: "mg", minMultiplier: 5, maxMultiplier: 19 },
+  // Prednisolone
+  { id: "prednisolone-asthma", name: "Prednisolone tablets mild/moderate asthma", category: "Tablets/Capsules", concentration: "5mg, 10mg, 20mg tabs, 5mg/5ml, 15mg/5ml syrup", dose: "1 - 2mg/kg/day, OD or BD. Max 20mg less than 3yrs, 40mg less than 12yrs", frequency: "OD or BD for 5 - 7 days (GINA guideline)", unit: "mg/day", minMultiplier: 1, maxMultiplier: 2 },
+  // Primaquine
+  { id: "primaquine", name: "Primaquine tablets", category: "Tablets/Capsules", concentration: "7.5mg, 15mg", dose: "0.5mg/kg/day, OD, for 14 days. Max 30mg/day", frequency: "OD for 14 days. Contraindicated less than 6 months", unit: "mg/day", multiplier: 0.5 },
+  // Propranolol
+  { id: "propranolol-tof", name: "Propranolol tablets TOF", category: "Tablets/Capsules", concentration: "10mg, 40mg, 80mg tabs, 5mg/5ml syrup", dose: "0.2 - 0.4mg/kg/dose, BD or TDS (increase gradually to 1 - 1.5mg/kg/dose)", frequency: "BD or TDS", unit: "mg", minMultiplier: 0.2, maxMultiplier: 0.4 },
+  { id: "propranolol-thyrotoxicosis", name: "Propranolol tablets thyrotoxicosis", category: "Tablets/Capsules", concentration: "10mg, 40mg, 80mg tabs", dose: "0.5 - 2mg/kg/day, 8 hourly. Max 40mg/dose", frequency: "8 hourly", unit: "mg/day", minMultiplier: 0.5, maxMultiplier: 2 },
+  { id: "propranolol-hemangioma-start", name: "Propranolol tablets infantile hemangioma starting", category: "Tablets/Capsules", concentration: "10mg, 40mg tabs, 5mg/5ml syrup", dose: "1mg/kg/day, TDS", frequency: "TDS", unit: "mg/day", multiplier: 1 },
+  { id: "propranolol-hemangioma-maint", name: "Propranolol tablets infantile hemangioma maintenance (24hrs later)", category: "Tablets/Capsules", concentration: "10mg, 40mg tabs, 5mg/5ml syrup", dose: "2mg/kg/day, BD or TDS", frequency: "BD or TDS", unit: "mg/day", multiplier: 2 },
+  // Pyridoxine
+  { id: "pyridoxine-load", name: "Pyridoxine pyridoxin-dependent seizures loading", category: "Injections/Infusions", dose: "50 - 100mg/dose, IM or rapid IV", frequency: "Loading dose", unit: "mg", minMultiplier: 50, maxMultiplier: 100 },
+  { id: "pyridoxine-maint", name: "Pyridoxine pyridoxin-dependent seizures maintenance", category: "Tablets/Capsules", dose: "50 - 100mg/day, orally", frequency: "OD", unit: "mg/day", minMultiplier: 50, maxMultiplier: 100 },
+  // Quinine tabs
+  { id: "quinine-tabs-load", name: "Quinine tablets loading dose", category: "Tablets/Capsules", concentration: "300mg tabs, 600mg/2ml injection", dose: "20mg/kg over 4 hours, diluted in D5%", frequency: "Loading, over 4 hours", unit: "mg", multiplier: 20 },
+  { id: "quinine-tabs-maint", name: "Quinine tablets maintenance", category: "Tablets/Capsules", concentration: "300mg tabs, 600mg/2ml injection", dose: "10mg/kg, 8 hourly", frequency: "8 hourly (reduce to 7mg/kg after 6 doses)", unit: "mg", multiplier: 10 },
+  // Sildenafil
+  { id: "sildenafil", name: "Sildenafil tablets pulmonary HTN", category: "Tablets/Capsules", concentration: "25mg, 50mg, 100mg", dose: "0.25 - 2mg/kg/dose, 6 - 8 hourly. Max 60mg/day", frequency: "6 - 8 hourly", unit: "mg", minMultiplier: 0.25, maxMultiplier: 2 },
+  // Sodium valproate tabs
+  { id: "sodium-valproate-tabs-start", name: "Sodium valproate tablets epilepsy initial", category: "Tablets/Capsules", concentration: "200mg, 300mg, 500mg", dose: "10 - 15mg/kg/day. Max 60mg/kg/day", frequency: "Initially", unit: "mg/day", minMultiplier: 10, maxMultiplier: 15 },
+  { id: "sodium-valproate-tabs-maint", name: "Sodium valproate tablets maintenance", category: "Tablets/Capsules", concentration: "200mg, 300mg, 500mg", dose: "20 - 60mg/kg/day, BD", frequency: "BD", unit: "mg/day", minMultiplier: 20, maxMultiplier: 60 },
+  // Spironolactone (Aldactone)
+  { id: "spironolactone", name: "Spironolactone (Aldactone) tablets", category: "Tablets/Capsules", concentration: "25mg, 50mg, 100mg", dose: "1 - 3mg/kg/day, OD or BD. Max 100mg/day", frequency: "OD or BD", unit: "mg/day", minMultiplier: 1, maxMultiplier: 3 },
+  // Thiamine
+  { id: "thiamine", name: "Thiamine tablets deficiency", category: "Tablets/Capsules", concentration: "25mg, 50mg, 100mg", dose: "10 - 50mg/day", frequency: "OD", fixed: "10 - 50 mg/day" },
+  // Tinidazole
+  { id: "tinidazole-giardiasis", name: "Tinidazole tablets giardiasis", category: "Tablets/Capsules", concentration: "300mg, 500mg", dose: "50mg/kg, once. Contraindicated less than 3yrs", frequency: "Single dose", unit: "mg", multiplier: 50 },
+  { id: "tinidazole-amoebiasis", name: "Tinidazole tablets amoebiasis", category: "Tablets/Capsules", concentration: "300mg, 500mg", dose: "50mg/kg/day, OD for 3 - 5 days. Contraindicated less than 3yrs", frequency: "OD for 3 - 5 days", unit: "mg/day", multiplier: 50 },
+  // Tobramycin eye drops
+  { id: "tobramycin-eye", name: "Tobramycin ophthalmic drops", category: "Drops", dose: "1 - 2 drops, BD for 6 - 8 days", frequency: "BD (severe: 2 drops 6 hourly, then taper)", fixed: "1 - 2 drops BD" },
+  // Tranexamic acid
+  { id: "tranexamic-acid", name: "Tranexamic acid tablets", category: "Tablets/Capsules", concentration: "500mg, 650mg", dose: "10 - 15mg/kg/dose, 6 - 8 hourly. Max 1g/dose", frequency: "6 - 8 hourly", unit: "mg", minMultiplier: 10, maxMultiplier: 15 },
+  // Ursodeoxycholic acid
+  { id: "ursodiol", name: "Ursodeoxycholic acid tablets", category: "Tablets/Capsules", concentration: "150mg, 300mg, 500mg", dose: "10 - 15mg/kg/day, OD or BD or TDS. Max 20mg/kg/day", frequency: "OD or BD or TDS", unit: "mg/day", minMultiplier: 10, maxMultiplier: 15 },
+  // Vitamin A
+  { id: "vit-a-under6mo", name: "Vitamin A prophylaxis less than 6 months", category: "Tablets/Capsules", dose: "50,000 IU, OD", frequency: "OD", fixed: "50,000 IU OD" },
+  { id: "vit-a-6to11mo", name: "Vitamin A prophylaxis 6 months - 11 months", category: "Tablets/Capsules", dose: "100,000 IU, OD", frequency: "OD", fixed: "100,000 IU OD" },
+  { id: "vit-a-over12mo", name: "Vitamin A prophylaxis 12 months and above / measles (therapeutic)", category: "Tablets/Capsules", dose: "200,000 IU, OD (therapeutic: same doses at day1, day2, and day14)", frequency: "OD (therapeutic: day 1, day 2, day 14)", fixed: "200,000 IU OD" },
+  // Vitamin D3
+  { id: "vit-d3-proph-1yr", name: "Vitamin D3 prophylaxis 1st year of life", category: "Tablets/Capsules", concentration: "1000 IU, 2000 IU, 5000 IU, 50000 IU, 60000 IU caps", dose: "400 IU, OD", frequency: "OD", fixed: "400 IU OD" },
+  { id: "vit-d3-proph-over1", name: "Vitamin D3 prophylaxis 2nd year of life and more", category: "Tablets/Capsules", concentration: "1000 IU, 2000 IU, 5000 IU, 50000 IU, 60000 IU caps", dose: "600 IU, OD", frequency: "OD", fixed: "600 IU OD" },
+  { id: "vit-d3-therapeutic", name: "Vitamin D3 therapeutic", category: "Tablets/Capsules", concentration: "1000 IU, 2000 IU, 5000 IU, 50000 IU, 60000 IU caps", dose: "1,000 - 10,000 IU/day or 50,000 IU weekly for 6 - 8 wks", frequency: "Daily or weekly", fixed: "1,000 - 10,000 IU/day or 50,000 IU weekly for 6-8 wks" },
+  // Vitamin E
+  { id: "vit-e", name: "Vitamin E capsules", category: "Tablets/Capsules", concentration: "100 IU, 200 IU, 400 IU caps", dose: "5 - 10mg/kg/day", frequency: "OD", unit: "mg/day", minMultiplier: 5, maxMultiplier: 10 },
+  // Zinc sulfate
+  { id: "zinc-under6mo", name: "Zinc sulfate less than 6 months", category: "Tablets/Capsules", concentration: "12mg/5ml, 20mg/5ml syrup, 20mg tabs", dose: "10mg, OD. For 10 - 14 days", frequency: "OD for 10 - 14 days", fixed: "10 mg OD" },
+  { id: "zinc-over6mo", name: "Zinc sulfate 6 months or more", category: "Tablets/Capsules", concentration: "12mg/5ml, 20mg/5ml syrup, 20mg tabs", dose: "20mg/day, OD. For 10 - 14 days", frequency: "OD for 10 - 14 days", fixed: "20 mg OD for 10 - 14 days" },
 ];
 
 const categories = ["All", "Injections/Infusions", "Syrups/Suspensions", "Drops", "Tablets/Capsules"] as const;
