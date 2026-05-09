@@ -18,7 +18,7 @@ import { useApp } from "@/context/AppContext";
 type DoseEntry = {
   id: string;
   name: string;
-  category: "Injections/Infusions" | "Syrups/Suspensions" | "Drops" | "Tablets/Capsules";
+  category: "Injections/Infusions" | "Syrups/Suspensions" | "Drops" | "Tablets/Capsules" | "Neonatology";
   concentration?: string;
   dose: string;
   frequency: string;
@@ -428,9 +428,111 @@ const DOSE_ENTRIES: DoseEntry[] = [
   // Zinc sulfate
   { id: "zinc-under6mo", name: "Zinc sulfate less than 6 months", category: "Tablets/Capsules", concentration: "12mg/5ml, 20mg/5ml syrup, 20mg tabs", dose: "10mg, OD. For 10 - 14 days", frequency: "OD for 10 - 14 days", fixed: "10 mg OD" },
   { id: "zinc-over6mo", name: "Zinc sulfate 6 months or more", category: "Tablets/Capsules", concentration: "12mg/5ml, 20mg/5ml syrup, 20mg tabs", dose: "20mg/day, OD. For 10 - 14 days", frequency: "OD for 10 - 14 days", fixed: "20 mg OD for 10 - 14 days" },
+
+  // ── NEONATOLOGY (all doses from NeoFax 2026) ────────────────────────────────
+  // Acetaminophen (Panadol) IV
+  { id: "neo-paracetamol-iv-under32", name: "NEONATAL Acetaminophen IV less than 32wks", category: "Neonatology", concentration: "IV infusion", dose: "10mg/kg/dose. Max 40mg/day, every 6 hours", frequency: "6 hourly", unit: "mg", multiplier: 10 },
+  { id: "neo-paracetamol-iv-32to37", name: "NEONATAL Acetaminophen IV 32wks - 37wks", category: "Neonatology", concentration: "IV infusion", dose: "12.5mg/kg/dose. Max 50mg/day, every 6 hours", frequency: "6 hourly", unit: "mg", multiplier: 12.5 },
+  { id: "neo-paracetamol-iv-term", name: "NEONATAL Acetaminophen IV term", category: "Neonatology", concentration: "IV infusion", dose: "12.5mg/kg/dose. Max 50mg/day, every 6 hours", frequency: "6 hourly", unit: "mg", multiplier: 12.5 },
+  // Acetaminophen oral neonatal
+  { id: "neo-paracetamol-oral-load", name: "NEONATAL Acetaminophen oral loading", category: "Neonatology", dose: "20 - 25mg/kg loading dose", frequency: "Loading dose, then maintenance", unit: "mg", minMultiplier: 20, maxMultiplier: 25 },
+  { id: "neo-paracetamol-oral-maint-under32", name: "NEONATAL Acetaminophen oral maintenance less than 32wks", category: "Neonatology", dose: "12 - 15mg/kg/dose, BD", frequency: "BD", unit: "mg", minMultiplier: 12, maxMultiplier: 15 },
+  { id: "neo-paracetamol-oral-maint-32to37", name: "NEONATAL Acetaminophen oral maintenance 32wks - 37wks", category: "Neonatology", dose: "12 - 15mg/kg/dose, TDS", frequency: "TDS", unit: "mg", minMultiplier: 12, maxMultiplier: 15 },
+  { id: "neo-paracetamol-oral-maint-term", name: "NEONATAL Acetaminophen oral maintenance term", category: "Neonatology", dose: "12 - 15mg/kg/dose, 6 hourly", frequency: "6 hourly", unit: "mg", minMultiplier: 12, maxMultiplier: 15 },
+  { id: "neo-paracetamol-pda", name: "NEONATAL Acetaminophen active PDA in preterm", category: "Neonatology", dose: "15mg/kg/dose, IV or orally, 6 hourly for 3 days", frequency: "6 hourly for 3 days", unit: "mg", multiplier: 15 },
+  // Acyclovir neonatal
+  { id: "neo-acyclovir-under34", name: "NEONATAL Acyclovir less than 34wks postmenstrual", category: "Neonatology", dose: "20mg/kg, BD", frequency: "BD", unit: "mg", multiplier: 20 },
+  { id: "neo-acyclovir-over34", name: "NEONATAL Acyclovir more than 34wks postmenstrual", category: "Neonatology", dose: "20mg/kg, TDS", frequency: "TDS", unit: "mg", multiplier: 20 },
+  // Aminophylline neonatal
+  { id: "neo-aminophylline-load", name: "NEONATAL Aminophylline loading dose", category: "Neonatology", dose: "5 - 8mg/kg", frequency: "Loading dose", unit: "mg", minMultiplier: 5, maxMultiplier: 8 },
+  { id: "neo-aminophylline-maint", name: "NEONATAL Aminophylline maintenance (start 12hrs after loading)", category: "Neonatology", dose: "1 - 3mg/kg/dose, BD, TDS, or 6 hourly", frequency: "BD, TDS, or 6 hourly (start 12hrs after loading)", unit: "mg", minMultiplier: 1, maxMultiplier: 3 },
+  // Ampicillin neonatal
+  { id: "neo-ampicillin-34wks-under7d", name: "NEONATAL Ampicillin 34wks or less, 7 days and less", category: "Neonatology", concentration: "250mg, 500mg, 1g", dose: "50mg/kg/dose, BD", frequency: "BD", unit: "mg", multiplier: 50 },
+  { id: "neo-ampicillin-34wks-8to28d", name: "NEONATAL Ampicillin 34wks or less, 8 days - 28 days", category: "Neonatology", concentration: "250mg, 500mg, 1g", dose: "75mg/kg/dose, BD", frequency: "BD", unit: "mg", multiplier: 75 },
+  { id: "neo-ampicillin-over34wks", name: "NEONATAL Ampicillin more than 34wks, 28 days or less", category: "Neonatology", concentration: "250mg, 500mg, 1g", dose: "50mg/kg/dose, TDS", frequency: "TDS", unit: "mg", multiplier: 50 },
+  // Artesunate neonatal
+  { id: "neo-artesunate", name: "NEONATAL Artesunate", category: "Neonatology", dose: "2.4mg/kg", frequency: "As directed", unit: "mg", multiplier: 2.4 },
+  // Azithromycin neonatal
+  { id: "neo-azithromycin-whooping", name: "NEONATAL Azithromycin whooping cough", category: "Neonatology", dose: "10mg/kg/dose, OD for 5 days", frequency: "OD for 5 days", unit: "mg", multiplier: 10 },
+  { id: "neo-azithromycin-opthalmia", name: "NEONATAL Azithromycin opthalmia neonatorum", category: "Neonatology", dose: "20mg/kg/dose, OD for 3 days", frequency: "OD for 3 days", unit: "mg", multiplier: 20 },
+  // Benzyl penicillin neonatal — regular dose
+  { id: "neo-benzylpen-32to34-under7d", name: "NEONATAL Benzyl penicillin regular 32 - 34wks, less than 7 days", category: "Neonatology", concentration: "1 million units, 5 million units", dose: "100,000 u/kg/dose, every 12 hours", frequency: "12 hourly", unit: "u", multiplier: 100000 },
+  { id: "neo-benzylpen-32to34-7to28d", name: "NEONATAL Benzyl penicillin regular 32 - 34wks, 7 - 28 days", category: "Neonatology", concentration: "1 million units, 5 million units", dose: "100,000 u/kg/dose, every 8 hours", frequency: "8 hourly", unit: "u", multiplier: 100000 },
+  { id: "neo-benzylpen-over34-under7d", name: "NEONATAL Benzyl penicillin regular 34wks & more, less than 7 days", category: "Neonatology", concentration: "1 million units, 5 million units", dose: "100,000 u/kg/dose, every 8 hours", frequency: "8 hourly", unit: "u", multiplier: 100000 },
+  { id: "neo-benzylpen-over34-7to28d", name: "NEONATAL Benzyl penicillin regular 34wks & more, 7 - 28 days", category: "Neonatology", concentration: "1 million units, 5 million units", dose: "100,000 u/kg/dose, every 6 hours", frequency: "6 hourly", unit: "u", multiplier: 100000 },
+  // Benzyl penicillin neonatal — meningitis dose
+  { id: "neo-benzylpen-mening-under7d", name: "NEONATAL Benzyl penicillin meningitis all ages, 7 days & younger", category: "Neonatology", concentration: "1 million units, 5 million units", dose: "150,000 u/kg/dose, every 8 hours", frequency: "8 hourly", unit: "u", multiplier: 150000 },
+  { id: "neo-benzylpen-mening-8d-plus", name: "NEONATAL Benzyl penicillin meningitis all ages, 8 days & more", category: "Neonatology", concentration: "1 million units, 5 million units", dose: "125,000 u/kg/dose, every 6 hours", frequency: "6 hourly", unit: "u", multiplier: 125000 },
+  // Cefotaxime neonatal
+  { id: "neo-cefotaxime-all-under7d", name: "NEONATAL Cefotaxime all weeks, less than 7 days", category: "Neonatology", concentration: "500mg, 1g", dose: "50mg/kg/dose, BD", frequency: "BD", unit: "mg", multiplier: 50 },
+  { id: "neo-cefotaxime-under32-over7d", name: "NEONATAL Cefotaxime less than 32wks, 7 days and more", category: "Neonatology", concentration: "500mg, 1g", dose: "50mg/kg/dose, BD", frequency: "BD", unit: "mg", multiplier: 50 },
+  { id: "neo-cefotaxime-over32-over7d", name: "NEONATAL Cefotaxime 32wks or more, 7 days and more", category: "Neonatology", concentration: "500mg, 1g", dose: "50mg/kg/dose, 6 hourly", frequency: "6 hourly", unit: "mg", multiplier: 50 },
+  // Ciprofloxacin neonatal
+  { id: "neo-cipro-32to34-under7d", name: "NEONATAL Ciprofloxacin 32wks - 34wks, less than 7 days", category: "Neonatology", concentration: "2mg/ml infusion", dose: "7.5mg/kg/dose, BD", frequency: "BD", unit: "mg", multiplier: 7.5 },
+  { id: "neo-cipro-32to34-8to14d", name: "NEONATAL Ciprofloxacin 32wks - 34wks, 8 - 14 days", category: "Neonatology", concentration: "2mg/ml infusion", dose: "12.5mg/kg/dose, BD", frequency: "BD", unit: "mg", multiplier: 12.5 },
+  { id: "neo-cipro-over34", name: "NEONATAL Ciprofloxacin 34wks and more, all ages", category: "Neonatology", concentration: "2mg/ml infusion", dose: "12.5mg/kg/dose, BD", frequency: "BD", unit: "mg", multiplier: 12.5 },
+  // Erythromycin neonatal
+  { id: "neo-erythromycin-whooping", name: "NEONATAL Erythromycin whooping cough", category: "Neonatology", dose: "10 - 12.5mg/kg/dose, 6 hourly", frequency: "6 hourly", unit: "mg", minMultiplier: 10, maxMultiplier: 12.5 },
+  { id: "neo-erythromycin-chlamydia", name: "NEONATAL Erythromycin chlamydia conjunctivitis", category: "Neonatology", dose: "50mg/kg/day, 6 hourly for 14 days", frequency: "6 hourly for 14 days", unit: "mg/day", multiplier: 50 },
+  // Ferrous sulfate neonatal
+  { id: "neo-ferrous-proph-preterm", name: "NEONATAL Ferrous sulfate prophylaxis less than 37wks", category: "Neonatology", dose: "2 - 3mg/kg/day", frequency: "OD or divided", unit: "mg/day", minMultiplier: 2, maxMultiplier: 3 },
+  { id: "neo-ferrous-proph-term", name: "NEONATAL Ferrous sulfate prophylaxis 37wks and more", category: "Neonatology", dose: "1mg/kg/day", frequency: "OD", unit: "mg/day", multiplier: 1 },
+  { id: "neo-ferrous-therapeutic", name: "NEONATAL Ferrous sulfate therapeutic", category: "Neonatology", dose: "3 - 6mg/kg/day", frequency: "OD or divided", unit: "mg/day", minMultiplier: 3, maxMultiplier: 6 },
+  // Folic acid neonatal
+  { id: "neo-folic-preterm", name: "NEONATAL Folic acid preterm", category: "Neonatology", dose: "25 - 50mcg/kg/day. Max 65mcg/day", frequency: "OD", unit: "mcg/day", minMultiplier: 25, maxMultiplier: 50 },
+  { id: "neo-folic-term", name: "NEONATAL Folic acid term", category: "Neonatology", dose: "65mcg/day", frequency: "OD", fixed: "65 mcg/day" },
+  // Gentamicin neonatal
+  { id: "neo-gent-under29-0to7d", name: "NEONATAL Gentamicin 29wks or less, 0 - 7 days", category: "Neonatology", concentration: "10mg/ml, 40mg/ml", dose: "5mg/kg/dose, every 48 hours", frequency: "Every 48 hours", unit: "mg", multiplier: 5 },
+  { id: "neo-gent-under29-8to28d", name: "NEONATAL Gentamicin 29wks or less, 8 - 28 days", category: "Neonatology", concentration: "10mg/ml, 40mg/ml", dose: "4mg/kg/dose, every 36 hours", frequency: "Every 36 hours", unit: "mg", multiplier: 4 },
+  { id: "neo-gent-under29-over28d", name: "NEONATAL Gentamicin 29wks or less, more than 28 days", category: "Neonatology", concentration: "10mg/ml, 40mg/ml", dose: "4mg/kg/dose, every 24 hours", frequency: "Every 24 hours", unit: "mg", multiplier: 4 },
+  { id: "neo-gent-30to34-0to7d", name: "NEONATAL Gentamicin 30 - 34wks, 0 - 7 days", category: "Neonatology", concentration: "10mg/ml, 40mg/ml", dose: "4.5mg/kg/dose, every 36 hours", frequency: "Every 36 hours", unit: "mg", multiplier: 4.5 },
+  { id: "neo-gent-30to34-8plus", name: "NEONATAL Gentamicin 30 - 34wks, 8 days and more", category: "Neonatology", concentration: "10mg/ml, 40mg/ml", dose: "4mg/kg/dose, every 24 hours", frequency: "Every 24 hours", unit: "mg", multiplier: 4 },
+  { id: "neo-gent-over35", name: "NEONATAL Gentamicin 35wks or more, all ages", category: "Neonatology", concentration: "10mg/ml, 40mg/ml", dose: "4mg/kg/dose, every 24 hours", frequency: "Every 24 hours", unit: "mg", multiplier: 4 },
+  // Meropenem neonatal
+  { id: "neo-meropenem-under32-under14d", name: "NEONATAL Meropenem less than 32wks, less than 14 days (usual)", category: "Neonatology", concentration: "500mg, 1g", dose: "20mg/kg/dose, BD", frequency: "BD", unit: "mg", multiplier: 20 },
+  { id: "neo-meropenem-under32-under14d-mening", name: "NEONATAL Meropenem less than 32wks, less than 14 days (meningitis)", category: "Neonatology", concentration: "500mg, 1g", dose: "40mg/kg/dose, BD", frequency: "BD", unit: "mg", multiplier: 40 },
+  { id: "neo-meropenem-under32-over14d", name: "NEONATAL Meropenem less than 32wks, 14 days or more (usual)", category: "Neonatology", concentration: "500mg, 1g", dose: "20mg/kg/dose, TDS", frequency: "TDS", unit: "mg", multiplier: 20 },
+  { id: "neo-meropenem-under32-over14d-mening", name: "NEONATAL Meropenem less than 32wks, 14 days or more (meningitis)", category: "Neonatology", concentration: "500mg, 1g", dose: "40mg/kg/dose, TDS", frequency: "TDS", unit: "mg", multiplier: 40 },
+  { id: "neo-meropenem-over32-under14d", name: "NEONATAL Meropenem 32wks and more, less than 14 days (usual)", category: "Neonatology", concentration: "500mg, 1g", dose: "20mg/kg/dose, TDS", frequency: "TDS", unit: "mg", multiplier: 20 },
+  { id: "neo-meropenem-over32-over14d", name: "NEONATAL Meropenem 32wks and more, 14 days and more (usual)", category: "Neonatology", concentration: "500mg, 1g", dose: "30mg/kg/dose, TDS", frequency: "TDS", unit: "mg", multiplier: 30 },
+  { id: "neo-meropenem-mening-all", name: "NEONATAL Meropenem meningitis dose all ages", category: "Neonatology", concentration: "500mg, 1g", dose: "40mg/kg/dose, TDS", frequency: "TDS", unit: "mg", multiplier: 40 },
+  // Metronidazole neonatal
+  { id: "neo-metro-load", name: "NEONATAL Metronidazole loading dose (all gestational ages)", category: "Neonatology", concentration: "500mg/100ml", dose: "15mg/kg loading", frequency: "Loading dose", unit: "mg", multiplier: 15 },
+  { id: "neo-metro-24to25wks", name: "NEONATAL Metronidazole maintenance 24 - 25wks", category: "Neonatology", concentration: "500mg/100ml", dose: "7.5mg/kg, every 24 hours", frequency: "Every 24 hours", unit: "mg", multiplier: 7.5 },
+  { id: "neo-metro-26to27wks", name: "NEONATAL Metronidazole maintenance 26 - 27wks", category: "Neonatology", concentration: "500mg/100ml", dose: "10mg/kg, every 24 hours", frequency: "Every 24 hours", unit: "mg", multiplier: 10 },
+  { id: "neo-metro-28to33wks", name: "NEONATAL Metronidazole maintenance 28 - 33wks", category: "Neonatology", concentration: "500mg/100ml", dose: "7.5mg/kg, every 12 hours", frequency: "Every 12 hours", unit: "mg", multiplier: 7.5 },
+  { id: "neo-metro-34to40wks", name: "NEONATAL Metronidazole maintenance 34 - 40wks", category: "Neonatology", concentration: "500mg/100ml", dose: "7.5mg/kg, every 8 hours", frequency: "Every 8 hours", unit: "mg", multiplier: 7.5 },
+  { id: "neo-metro-over40wks", name: "NEONATAL Metronidazole maintenance more than 40wks", category: "Neonatology", concentration: "500mg/100ml", dose: "7.5mg/kg, every 6 hours", frequency: "Every 6 hours", unit: "mg", multiplier: 7.5 },
+  // Omeprazole neonatal
+  { id: "neo-omeprazole", name: "NEONATAL Omeprazole", category: "Neonatology", dose: "0.5 - 1.5mg/kg OD", frequency: "OD", unit: "mg", minMultiplier: 0.5, maxMultiplier: 1.5 },
+  // Phenobarbital neonatal
+  { id: "neo-phenobarb-load", name: "NEONATAL Phenobarbital loading dose", category: "Neonatology", concentration: "15mg, 30mg, 60mg, 100mg tabs", dose: "20mg/kg", frequency: "Loading dose (second loading dose if convulsion did not stop)", unit: "mg", multiplier: 20 },
+  { id: "neo-phenobarb-maint", name: "NEONATAL Phenobarbital maintenance", category: "Neonatology", concentration: "15mg, 30mg, 60mg, 100mg tabs", dose: "3 - 5mg/kg/day, OD or BD", frequency: "OD or BD", unit: "mg/day", minMultiplier: 3, maxMultiplier: 5 },
+  // Phenytoin neonatal
+  { id: "neo-phenytoin-load", name: "NEONATAL Phenytoin loading dose", category: "Neonatology", concentration: "50mg/ml", dose: "15 - 20mg/kg", frequency: "Loading dose", unit: "mg", minMultiplier: 15, maxMultiplier: 20 },
+  { id: "neo-phenytoin-maint", name: "NEONATAL Phenytoin maintenance", category: "Neonatology", concentration: "50mg/ml", dose: "4 - 8mg/kg/day, OD or BD", frequency: "OD or BD", unit: "mg/day", minMultiplier: 4, maxMultiplier: 8 },
+  // Prednisolone neonatal (weaning from oxygen)
+  { id: "neo-prednisolone-wean1", name: "NEONATAL Prednisolone weaning from oxygen phase 1", category: "Neonatology", concentration: "5mg/5ml, 15mg/5ml syrup", dose: "2mg/kg/day, BD for 5 days", frequency: "BD for 5 days", unit: "mg/day", multiplier: 2 },
+  { id: "neo-prednisolone-wean2", name: "NEONATAL Prednisolone weaning from oxygen phase 2", category: "Neonatology", concentration: "5mg/5ml, 15mg/5ml syrup", dose: "1mg/kg/day, OD for 3 days", frequency: "OD for 3 days", unit: "mg/day", multiplier: 1 },
+  { id: "neo-prednisolone-wean3", name: "NEONATAL Prednisolone weaning from oxygen phase 3", category: "Neonatology", concentration: "5mg/5ml, 15mg/5ml syrup", dose: "1mg/kg/day, every other day for 3 doses", frequency: "Every other day for 3 doses", unit: "mg/day", multiplier: 1 },
+  // Ranitidine neonatal
+  { id: "neo-ranitidine-oral", name: "NEONATAL Ranitidine oral", category: "Neonatology", concentration: "75mg/5ml", dose: "2mg/kg/dose, TDS", frequency: "TDS", unit: "mg", multiplier: 2 },
+  { id: "neo-ranitidine-iv-term", name: "NEONATAL Ranitidine IV term", category: "Neonatology", concentration: "25mg/ml", dose: "1.5mg/kg/dose, TDS", frequency: "TDS", unit: "mg", multiplier: 1.5 },
+  { id: "neo-ranitidine-iv-preterm", name: "NEONATAL Ranitidine IV preterm", category: "Neonatology", concentration: "25mg/ml", dose: "0.5mg/kg/dose, BD", frequency: "BD", unit: "mg", multiplier: 0.5 },
+  // Vancomycin neonatal
+  { id: "neo-vancomycin-under29-0to14d", name: "NEONATAL Vancomycin 29wks & less, 0 - 14 days", category: "Neonatology", concentration: "500mg, 1g", dose: "10 - 15mg/kg/dose, every 18 hours", frequency: "Every 18 hours", unit: "mg", minMultiplier: 10, maxMultiplier: 15 },
+  { id: "neo-vancomycin-under29-over14d", name: "NEONATAL Vancomycin 29wks & less, older than 14 days", category: "Neonatology", concentration: "500mg, 1g", dose: "10 - 15mg/kg/dose, every 12 hours", frequency: "Every 12 hours", unit: "mg", minMultiplier: 10, maxMultiplier: 15 },
+  { id: "neo-vancomycin-30to36-0to14d", name: "NEONATAL Vancomycin 30 - 36wks, 0 - 14 days", category: "Neonatology", concentration: "500mg, 1g", dose: "10 - 15mg/kg/dose, every 12 hours", frequency: "Every 12 hours", unit: "mg", minMultiplier: 10, maxMultiplier: 15 },
+  { id: "neo-vancomycin-30to36-over14d", name: "NEONATAL Vancomycin 30 - 36wks, older than 14 days", category: "Neonatology", concentration: "500mg, 1g", dose: "10 - 15mg/kg/dose, every 8 hours", frequency: "Every 8 hours", unit: "mg", minMultiplier: 10, maxMultiplier: 15 },
+  { id: "neo-vancomycin-37to44-0to7d", name: "NEONATAL Vancomycin 37 - 44wks, 0 - 7 days", category: "Neonatology", concentration: "500mg, 1g", dose: "10 - 15mg/kg/dose, every 12 hours", frequency: "Every 12 hours", unit: "mg", minMultiplier: 10, maxMultiplier: 15 },
+  { id: "neo-vancomycin-37to44-over7d", name: "NEONATAL Vancomycin 37 - 44wks, older than 7 days", category: "Neonatology", concentration: "500mg, 1g", dose: "10 - 15mg/kg/dose, every 8 hours", frequency: "Every 8 hours", unit: "mg", minMultiplier: 10, maxMultiplier: 15 },
+  { id: "neo-vancomycin-over45", name: "NEONATAL Vancomycin 45wks & more, all ages", category: "Neonatology", concentration: "500mg, 1g", dose: "10 - 15mg/kg/dose, every 6 hours", frequency: "Every 6 hours", unit: "mg", minMultiplier: 10, maxMultiplier: 15 },
+  // Vitamin K neonatal
+  { id: "neo-vitk-under1500", name: "NEONATAL Vitamin K less than 1500g", category: "Neonatology", dose: "0.3 - 0.5mg/kg, within 6 hours", frequency: "Once, within 6 hours of birth", unit: "mg", minMultiplier: 0.3, maxMultiplier: 0.5 },
+  { id: "neo-vitk-over1500", name: "NEONATAL Vitamin K more than 1500g", category: "Neonatology", dose: "1mg/day", frequency: "Once", fixed: "1 mg" },
 ];
 
-const categories = ["All", "Injections/Infusions", "Syrups/Suspensions", "Drops", "Tablets/Capsules"] as const;
+const categories = ["All", "Injections/Infusions", "Syrups/Suspensions", "Drops", "Tablets/Capsules", "Neonatology"] as const;
 
 function formatDose(value: number): string {
   const rounded = Math.round(value * 100) / 100;
