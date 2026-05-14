@@ -27,6 +27,7 @@ import { router } from "expo-router";
 
 import Colors from "@/constants/colors";
 import * as Notifications from "expo-notifications";
+import { showInterstitial, loadInterstitial } from "@/services/unity-ads";
 import { t } from "@/constants/i18n";
 import {
   useApp,
@@ -378,6 +379,8 @@ export default function HomeScreen() {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     }
     setConfirmModal({ visible: false, id: null });
+    await showInterstitial();
+    loadInterstitial();
   };
 
   const [deleteModal, setDeleteModal] = useState<{ visible: boolean; id: string | null }>({ visible: false, id: null });
@@ -391,6 +394,8 @@ export default function HomeScreen() {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     }
     setDeleteModal({ visible: false, id: null });
+    await showInterstitial();
+    loadInterstitial();
   };
 
   // The edit page is not shown in the main menu; only accessible from the edit button on each medication card

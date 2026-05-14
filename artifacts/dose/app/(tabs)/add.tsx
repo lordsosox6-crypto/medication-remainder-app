@@ -18,6 +18,7 @@ import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import Colors from "@/constants/colors";
 import { t } from "@/constants/i18n";
 import { useApp, type MedicationType, type RouteType } from "@/context/AppContext";
+import { showInterstitial, loadInterstitial } from "@/services/unity-ads";
 import { SafeAreaView } from "react-native-safe-area-context";
 const INTERVALS = [2, 4, 6, 8, 12, 24];
 
@@ -245,6 +246,8 @@ export default function AddScreen() {
       });
     }
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    await showInterstitial();
+    loadInterstitial();
     // Force navigation to the home page tab
     router.replace("/(tabs)");
   };
