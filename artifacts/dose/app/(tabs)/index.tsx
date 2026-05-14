@@ -380,6 +380,7 @@ export default function HomeScreen() {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     }
     setConfirmModal({ visible: false, id: null });
+    await new Promise((resolve) => setTimeout(resolve, 350));
     await showInterstitial();
     loadInterstitial();
   };
@@ -395,6 +396,7 @@ export default function HomeScreen() {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     }
     setDeleteModal({ visible: false, id: null });
+    await new Promise((resolve) => setTimeout(resolve, 350));
     await showInterstitial();
     loadInterstitial();
   };
