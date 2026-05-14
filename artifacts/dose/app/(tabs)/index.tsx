@@ -17,7 +17,7 @@ import {
   Platform,
   Alert,
 } from "react-native";
-import AdBanner from "@/components/AdBanner";
+import UnityAdBanner from "@/components/UnityAdBanner";
 import ConfirmIntakeModal from "@/components/ConfirmIntakeModal";
 import DeleteConfirmModal from "@/components/DeleteConfirmModal";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -587,7 +587,7 @@ export default function HomeScreen() {
             </Pressable>
           </View>
         }
-        ListFooterComponent={<AdBanner />}
+        ListFooterComponent={<UnityAdBanner />}
       />
     </View>
   );
