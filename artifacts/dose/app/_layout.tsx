@@ -72,14 +72,11 @@ export default function RootLayout() {
   }, []);
 
   useEffect(() => {
+    if (Platform.OS === "web") return;
     async function setupNotifications() {
-      // Ask for notification permissions
       const { status } = await Notifications.requestPermissionsAsync();
-      if (status !== "granted") {
-        console.log("Notification permissions not granted");
-      }
+      if (status !== "granted") return;
 
-      // Configure foreground behavior (show alerts while app is open)
       Notifications.setNotificationHandler({
         handleNotification: async () => ({
           shouldShowAlert: true,
@@ -90,16 +87,14 @@ export default function RootLayout() {
         }),
       });
 
-      if (Platform.OS !== "web") {
-        Notifications.scheduleNotificationAsync({
-          content: {
-            title: "مرحبا بك!",
-            body: "يمكنمك الآن تتبع أدويتك بسهولة مع تابيرا.",
-            sound: true,
-          },
-          trigger: { type: "timeInterval", seconds: 5 },
-        });
-      }
+      Notifications.scheduleNotificationAsync({
+        content: {
+          title: "مرحبا بك!",
+          body: "يمكنمك الآن تتبع أدويتك بسهولة مع تابيرا.",
+          sound: true,
+        },
+        trigger: { type: "timeInterval", seconds: 5 },
+      });
     }
 
     setupNotifications();

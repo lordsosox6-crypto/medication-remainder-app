@@ -332,6 +332,7 @@ export default function HomeScreen() {
 
   // Schedule notifications for finish time and due_now status
   React.useEffect(() => {
+    if (Platform.OS === "web") return;
     Notifications.cancelAllScheduledNotificationsAsync();
     filtered.forEach((med: Medication) => {
       const status = getMedicationStatus(med);
