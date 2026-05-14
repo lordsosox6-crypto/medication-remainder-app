@@ -22,7 +22,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as Notifications from "expo-notifications";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AppContextProvider } from "@/context/AppContext";
-import { initializeUnityAds } from "@/services/unity-ads";
+import { initializeUnityAds, loadTimedAd, showTimedAd } from "@/services/unity-ads";
 
 const queryClient = new QueryClient();
 
@@ -55,8 +55,20 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (Platform.OS !== "web") {
-      initializeUnityAds().catch(() => {});
+      initializeUnityAds()
+        .then(() => loadTimedAd())
+        .catch(() => {});
     }
+  }, []);
+
+  useEffect(() => {
+    if (Platform.OS === "web") return;
+    const TEN_MINUTES = 10 * 60 * 1000;
+    const interval = setInterval(async () => {
+      await showTimedAd();
+      loadTimedAd();
+    }, TEN_MINUTES);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {

@@ -6,6 +6,7 @@ export const UNITY_GAME_ID = "6115331";
 export const PlacementIds = {
   INTERSTITIAL: Platform.OS === "ios" ? "Interstitial_iOS" : "Interstitial_Android",
   REWARDED: Platform.OS === "ios" ? "Rewarded_iOS" : "Rewarded_Android",
+  TIMED: "through_the_app",
 };
 
 export async function initializeUnityAds(): Promise<void> {
@@ -32,6 +33,25 @@ export async function showInterstitial(): Promise<void> {
     }
   } catch (e) {
     console.warn("[Unity Ads] Show interstitial failed:", e);
+  }
+}
+
+export async function loadTimedAd(): Promise<void> {
+  try {
+    await UnityAds.loadAd(PlacementIds.TIMED);
+  } catch (e) {
+    console.warn("[Unity Ads] Load timed ad failed:", e);
+  }
+}
+
+export async function showTimedAd(): Promise<void> {
+  try {
+    const ready = await UnityAds.isLoad(PlacementIds.TIMED);
+    if (ready) {
+      await UnityAds.showAd(PlacementIds.TIMED);
+    }
+  } catch (e) {
+    console.warn("[Unity Ads] Show timed ad failed:", e);
   }
 }
 
