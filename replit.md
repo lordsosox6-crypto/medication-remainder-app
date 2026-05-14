@@ -73,6 +73,7 @@ A polished mobile medication reminder app built with Expo Router.
 - **State**: React Context + AsyncStorage
 - **Notifications**: expo-notifications (installed, ready for alarm scheduling)
 - **Haptics**: expo-haptics for tactile feedback
+- **Ads**: react-native-google-mobile-ads (AdMob) — banner ads on home screen, initialized at app start
 
 ## TypeScript & Composite Projects
 

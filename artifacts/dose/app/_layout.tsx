@@ -19,9 +19,10 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import * as Notifications from "expo-notifications";   // ✅ import notifications
+import * as Notifications from "expo-notifications";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AppContextProvider } from "@/context/AppContext";
+import { initializeAdMob } from "@/services/admob";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,12 @@ export default function RootLayout() {
     Inter_600SemiBold,
     Inter_700Bold,
   });
+
+  useEffect(() => {
+    if (Platform.OS !== "web") {
+      initializeAdMob().catch(() => {});
+    }
+  }, []);
 
   useEffect(() => {
     async function setupNotifications() {
